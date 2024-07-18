@@ -1,8 +1,10 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { InviteGuestsModal } from "./invite-guests-modal";
+import { DateRange } from "react-day-picker";
+
 import { ConfirmTripModal } from "./confirm-trip-modal";
+import { InviteGuestsModal } from "./invite-guests-modal";
 import { InviteGuestsStep } from "./steps/invite-guests-step";
 import { DestinationAndDateStep } from "./steps/destination-and-date-step";
 
@@ -15,6 +17,12 @@ export function CreateTripPage() {
   "john@acme.com",
  ]);
  const [isConfirmTripModalOpen, setIsConfirmTripModalOpen] = useState(false);
+ const [destination, setDestination] = useState("");
+ const [ownerName, setOwnerName] = useState("");
+ const [ownerEmail, setOwnerEmail] = useState("");
+ const [eventStartAndEndDates, setEventStartAndEndDates] = useState<
+  DateRange | undefined
+ >();
 
  function openGuestsInput() {
   setIsGuestsInputOpen(true);
@@ -84,16 +92,19 @@ export function CreateTripPage() {
 
     <div className="space-y-4">
      <DestinationAndDateStep
-      closeGuestsInput={closeGuestsInput}
+      setDestination={setDestination}
       openGuestsInput={openGuestsInput}
+      closeGuestsInput={closeGuestsInput}
       isGuestsInputOpen={isGuestsInputOpen}
+      eventStartAndEndDates={eventStartAndEndDates}
+      setEventStartAndEndDates={setEventStartAndEndDates}
      />
 
      {isGuestsInputOpen && (
       <InviteGuestsStep
        emailsToInvite={emailsToInvite}
-       openConfirmTripModal={openConfirmTripModal}
        openGuestsModal={openGuestsModal}
+       openConfirmTripModal={openConfirmTripModal}
       />
      )}
     </div>
@@ -123,10 +134,10 @@ export function CreateTripPage() {
 
    {isConfirmTripModalOpen && (
     <ConfirmTripModal
-     closeConfirmTripModal={closeConfirmTripModal}
      createTrip={createTrip}
-     //  setOwnerName={setOwnerName}
-     //  setOwnerEmail={setOwnerEmail}
+     setOwnerName={setOwnerName}
+     setOwnerEmail={setOwnerEmail}
+     closeConfirmTripModal={closeConfirmTripModal}
     />
    )}
   </div>

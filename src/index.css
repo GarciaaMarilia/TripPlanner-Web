@@ -3,5 +3,10 @@
 @tailwind utilities;
 
 * {
-  min-width: 0;
+ min-width: 0;
 }
+
+input {
+ color-scheme: dark;
+}
+
