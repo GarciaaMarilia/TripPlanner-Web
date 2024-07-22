@@ -4,17 +4,9 @@ import { useParams } from "react-router-dom";
 import { format } from "date-fns";
 import { MapPin, Calendar, Settings2 } from "lucide-react";
 
-
+import { Trip } from "./types";
 import { api } from "../../../lib/axios";
 import { Button } from "../../../components/button";
-
-interface Trip {
- id: string;
- destination: string;
- starts_at: string;
- ends_at: string;
- is_confirmed: boolean;
-}
 
 export function DestinationAndDateHeader() {
  const { tripId } = useParams();
@@ -46,7 +38,7 @@ export function DestinationAndDateHeader() {
     <div className="w-px h-6 bg-zinc-800" />
 
     <Button variant="secondary">
-     Alterar local/data
+     Change location/date
      <Settings2 className="size-5" />
     </Button>
    </div>

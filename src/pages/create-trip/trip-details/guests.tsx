@@ -25,7 +25,7 @@ export function Guests() {
 
  return (
   <div className="space-y-6">
-   <h2 className="font-semibold text-xl">Convidados</h2>
+   <h2 className="font-semibold text-xl">Guests</h2>
 
    <div className="space-y-5">
     {participants.map((participant, index) => (
@@ -53,7 +53,7 @@ export function Guests() {
 
    <Button variant="secondary" size="full">
     <UserCog className="size-5" />
-    Gerenciar convidados
+    Manage guests
    </Button>
   </div>
  );

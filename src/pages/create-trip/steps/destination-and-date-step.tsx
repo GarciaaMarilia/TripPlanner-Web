@@ -34,14 +34,20 @@ export function DestinationAndDateStep({
   return setIsDatePickerOpen(false);
  }
 
- const displayedDate =
-  eventStartAndEndDates &&
-  eventStartAndEndDates.from &&
-  eventStartAndEndDates.to
-   ? format(eventStartAndEndDates.from, "d' de 'LLL")
-      .concat(" até ")
-      .concat(format(eventStartAndEndDates.to, "d' de 'LLL"))
-   : null;
+ const displayedDate = () => {
+  if (!eventStartAndEndDates) {
+   return "When?";
+  }
+  const { from, to } = eventStartAndEndDates;
+
+  if (from && to) {
+   return `${format(from, "d' de 'LLL")} to ${format(to, "d' de 'LLL")}`;
+  }
+
+  if (from) {
+   return format(from, "d' de 'LLL");
+  }
+ };
 
  return (
   <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
@@ -50,7 +56,7 @@ export function DestinationAndDateStep({
     <input
      type="text"
      disabled={isGuestsInputOpen}
-     placeholder="Para onde você vai?"
+     placeholder="Where are you going?"
      onChange={(event) => setDestination(event.target.value)}
      className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
     />
@@ -62,9 +68,7 @@ export function DestinationAndDateStep({
     className="flex items-center gap-2 text-left w-[240px]"
    >
     <Calendar className="size-5 text-zinc-400" />
-    <span className="text-lg placeholder-zinc-400 w-40">
-     {displayedDate || "Quando?"}
-    </span>
+    <span className="text-lg placeholder-zinc-400 w-40">{displayedDate()}</span>
    </button>
 
    {isDatePickerOpen && (
@@ -92,12 +96,12 @@ export function DestinationAndDateStep({
 
    {isGuestsInputOpen ? (
     <Button onClick={closeGuestsInput} variant="secondary">
-     Continuar
+     Change location/date
      <Settings2 className="size-5" />
     </Button>
    ) : (
-    <Button onClick={openGuestsInput} variant="primary">
-     Alterar local/data
+    <Button onClick={openGuestsInput}>
+     Continue
      <ArrowRight className="size-5" />
     </Button>
    )}

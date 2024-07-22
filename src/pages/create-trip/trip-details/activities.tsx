@@ -8,7 +8,7 @@ import { CircleCheck } from "lucide-react";
 import { api } from "../../../lib/axios";
 
 interface Activity {
- date: string;
+ data: string;
  activities: {
   id: string;
   title: string;
@@ -30,13 +30,13 @@ export function Activities() {
   <div className="space-y-8">
    {activities.map((category) => {
     return (
-     <div key={category.date} className="space-y-2.5">
+     <div key={category.data} className="space-y-2.5">
       <div className="flex gap-2 items-baseline">
        <span className="text-xl text-zinc-300 font-semibold">
-        Dia {format(category.date, "d")}
+        Dia {format(category.data, "d")}
        </span>
        <span className="text-xs text-zinc-500">
-        {format(category.date, "EEEE", { locale: ptBR })}
+        {format(category.data, "EEEE", { locale: ptBR })}
        </span>
       </div>
       {category.activities.length > 0 ? (
@@ -57,7 +57,7 @@ export function Activities() {
        </div>
       ) : (
        <p className="text-zinc-500 text-sm">
-        Nenhuma atividade cadastrada nessa data.
+        None of the activities are scheduled for this date.
        </p>
       )}
      </div>

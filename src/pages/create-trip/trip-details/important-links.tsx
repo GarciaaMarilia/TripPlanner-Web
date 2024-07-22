@@ -5,7 +5,7 @@ import { Button } from "../../../components/button";
 export function ImportantLinks() {
  return (
   <div className="space-y-6">
-   <h2 className="font-semibold text-xl">Links importantes</h2>
+   <h2 className="font-semibold text-xl">Important <link rel="alternate" href="atom.xml" type="application/atom+xml" title="Atom" />links</h2>
 
    <div className="space-y-5">
     <div className="flex items-center justify-between gap-4">
@@ -39,7 +39,7 @@ export function ImportantLinks() {
 
    <Button variant="secondary" size="full">
     <Plus className="size-5" />
-    Cadastrar novo link
+    Register new link
    </Button>
   </div>
  );
