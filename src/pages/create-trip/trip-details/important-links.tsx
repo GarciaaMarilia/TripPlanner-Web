@@ -5,6 +5,7 @@ import { Link2, Plus } from "lucide-react";
 import { api } from "../../../lib/axios";
 import { useParams } from "react-router-dom";
 import { Button } from "../../../components/button";
+import { RegisterLinkModal } from "./register-link-modal";
 
 interface Link {
  title: string;
@@ -14,9 +15,18 @@ interface Link {
 export function ImportantLinks() {
  const { tripId } = useParams();
  const [links, setLinks] = useState<Link[]>([]);
+ const [isRegisterLinkModalOpen, setIsRegisterLinkModalOpen] = useState(false);
+
+ function openRegisterLinkModal() {
+  setIsRegisterLinkModalOpen(true);
+ }
+
+ function closeRegisterLinkModal() {
+  setIsRegisterLinkModalOpen(false);
+ }
 
  useEffect(() => {
-  api.get(`trips/${tripId}/links`).then((response) => setLinks(response.data));
+  api.get(`trips/${tripId}/links`).then((response) => setLinks(response.data.links));
  }, [tripId]);
 
  return (
@@ -57,10 +67,14 @@ export function ImportantLinks() {
     </p>
    )}
 
-   <Button variant="secondary" size="full">
+   <Button onClick={openRegisterLinkModal} variant="secondary" size="full">
     <Plus className="size-5" />
     Register new link
    </Button>
+
+   {isRegisterLinkModalOpen && (
+    <RegisterLinkModal closeRegisterLinkModal={closeRegisterLinkModal} />
+   )}
   </div>
  );
 }
