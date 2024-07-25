@@ -1,10 +1,11 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Link2, Tag, X } from "lucide-react";
 
 import { api } from "../../../lib/axios";
 import { Button } from "../../../components/button";
+import { ConfirmModal, ModalType } from "../../../components/modal";
 
 interface RegisterLinkModalProps {
  closeRegisterLinkModal: () => void;
@@ -14,6 +15,16 @@ export function RegisterLinkModal({
  closeRegisterLinkModal,
 }: RegisterLinkModalProps) {
  const { tripId } = useParams();
+ const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+
+ function openConfirmModal() {
+  setIsConfirmModalOpen(true);
+ }
+
+ function closeConfirmModal() {
+  setIsConfirmModalOpen(false);
+  window.document.location.reload();
+ }
 
  async function registerLink(event: FormEvent<HTMLFormElement>) {
   event.preventDefault();
@@ -23,12 +34,15 @@ export function RegisterLinkModal({
   const title = data.get("title")?.toString();
   const url = data.get("url")?.toString();
 
-  await api.post(`/trips/${tripId}/links`, {
-   title,
-   url,
-  });
+  await api
+   .post(`/trips/${tripId}/links`, {
+    title,
+    url,
+   })
+   .then(() => {
+    openConfirmModal();
+   });
 
-  window.document.location.reload();
  }
 
  return (
@@ -44,6 +58,13 @@ export function RegisterLinkModal({
 
      <p className="text-sm text-zinc-400">All guests can view the links.</p>
     </div>
+
+    {isConfirmModalOpen && (
+     <ConfirmModal
+      type={ModalType.Link}
+      closeConfirmModal={closeConfirmModal}
+     />
+    )}
 
     <form onSubmit={registerLink} className="space-y-3">
      <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">

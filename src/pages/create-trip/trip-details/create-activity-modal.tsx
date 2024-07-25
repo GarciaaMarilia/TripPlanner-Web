@@ -1,10 +1,11 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Calendar, Tag, X } from "lucide-react";
 
 import { api } from "../../../lib/axios";
 import { Button } from "../../../components/button";
+import { ConfirmModal, ModalType } from "../../../components/modal";
 
 interface CreateActivityModalProps {
  closeCreateActivityModal: () => void;
@@ -14,6 +15,16 @@ export function CreateActivityModal({
  closeCreateActivityModal,
 }: CreateActivityModalProps) {
  const { tripId } = useParams();
+ const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+
+ function openConfirmModal() {
+  setIsConfirmModalOpen(true);
+ }
+
+ function closeConfirmModal() {
+  setIsConfirmModalOpen(false);
+  window.document.location.reload();
+ }
 
  async function createActivity(event: FormEvent<HTMLFormElement>) {
   event.preventDefault();
@@ -23,12 +34,14 @@ export function CreateActivityModal({
   const title = data.get("title")?.toString();
   const occurs_at = data.get("occurs_at")?.toString();
 
-  await api.post(`/trips/${tripId}/activities`, {
-   title,
-   occurs_at,
-  });
-
-  window.document.location.reload();
+  await api
+   .post(`/trips/${tripId}/activities`, {
+    title,
+    occurs_at,
+   })
+   .then(() => {
+    openConfirmModal();
+   });
  }
 
  return (
@@ -69,6 +82,13 @@ export function CreateActivityModal({
 
      <Button size="full">Save activity</Button>
     </form>
+
+    {isConfirmModalOpen && (
+     <ConfirmModal
+      type={ModalType.Activity}
+      closeConfirmModal={closeConfirmModal}
+     />
+    )}
    </div>
   </div>
  );

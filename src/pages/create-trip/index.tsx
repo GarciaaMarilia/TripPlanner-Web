@@ -38,7 +38,7 @@ export function CreateTripPage() {
   }
  }
 
- const displayedDate = getDisplayedDate();
+ const displayedDate = getDisplayedDate() as string;
 
  function openGuestsInput() {
   setIsGuestsInputOpen(true);
