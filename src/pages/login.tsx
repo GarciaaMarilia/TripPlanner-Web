@@ -1,14 +1,42 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ArrowRight, KeyRound, User } from "lucide-react";
 
+import { api } from "../lib/axios";
 import { Button } from "../components/button";
+import { ErrorModal, ModalType } from "../components/error-modal";
 
 export function LoginPage() {
  const navigate = useNavigate();
+ const [email, setEmail] = useState<string>("");
+ const [password, setPassword] = useState<string>("");
+ const [modalType, setModalType] = useState<string>("");
+ const [errorModalIsOpen, setErrorModalIsOpen] = useState<boolean>(false);
 
- function authentication() {
-  return navigate("/createTrip");
+ async function authenticate() {
+  try {
+   const response = await api.post("/login", { email, password });
+
+   if (response.data.token) {
+    
+    localStorage.setItem("token", response.data.token); 
+    if (response.data.user) {
+     const userId = response.data.user.id;
+     localStorage.setItem("userId", userId);
+     localStorage.setItem("username", response.data.user.name);
+     navigate(`/listTrips/${userId}`);
+    }
+   } else {
+    setModalType(ModalType.AuthenticationFailed);
+    setErrorModalIsOpen(true);
+    throw new Error("Authentication failed.");
+   }
+  } catch (error) {
+   setModalType(ModalType.InvalidCredentials);
+   setErrorModalIsOpen(true);
+   throw new Error("Invalid email or password");
+  }
  }
 
  return (
@@ -26,9 +54,9 @@ export function LoginPage() {
       <User className="size-5 text-zinc-400" />
       <input
        type="text"
-       //  disabled={isGuestsInputOpen}
+       value={email}
        placeholder="User"
-       //  onChange={(event) => setDestination(event.target.value)}
+       onChange={(event) => setEmail(event.target.value)}
        className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
       />
      </div>
@@ -38,14 +66,14 @@ export function LoginPage() {
       <KeyRound className="size-5 text-zinc-400" />
       <input
        type="password"
-       //  disabled={isGuestsInputOpen}
+       value={password}
        placeholder="Password"
-       //  onChange={(event) => setDestination(event.target.value)}
+       onChange={(event) => setPassword(event.target.value)}
        className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
       />
      </div>
     </div>
-    <Button size="full" onClick={authentication}>
+    <Button size="full" onClick={authenticate}>
      Continue
      <ArrowRight className="size-5" />
     </Button>
@@ -63,6 +91,12 @@ export function LoginPage() {
      .
     </p>
    </div>
+   {errorModalIsOpen && (
+    <ErrorModal
+     type={modalType}
+     closeErrorModal={() => setErrorModalIsOpen(false)}
+    />
+   )}
   </div>
  );
 }

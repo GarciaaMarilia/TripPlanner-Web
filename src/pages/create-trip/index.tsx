@@ -119,8 +119,10 @@ export function CreateTripPage() {
   });
 
   const { tripId } = response.data;
+  const userId = localStorage.getItem("userId");
 
-  navigate(`/trips/${tripId}`);
+  //   navigate(`/trips/${tripId}`);
+  navigate(`/listTrips/${userId}`);
  }
 
  return (

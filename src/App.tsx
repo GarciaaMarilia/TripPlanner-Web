@@ -1,7 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { CreateTripPage } from "./pages/create-trip";
-import { TripDetailsPage } from "./pages/create-trip/trip-details";
+
 import { LoginPage } from "./pages/login";
+import { CreateTripPage } from "./pages/create-trip";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import { AuthProvider } from "./contexts/AuthContext";
+import { TripDetailsPage } from "./pages/create-trip/trip-details";
+import { ListTripsPage } from "./pages/create-trip/list-trips/list-trips";
 
 const router = createBrowserRouter([
  {
@@ -10,14 +14,22 @@ const router = createBrowserRouter([
  },
  {
   path: "/createTrip",
-  element: <CreateTripPage />,
+  element: <ProtectedRoute element={<CreateTripPage />} />,
  },
  {
   path: "/trips/:tripId",
-  element: <TripDetailsPage />,
+  element: <ProtectedRoute element={<TripDetailsPage />} />,
+ },
+ {
+  path: "/listTrips/:userId",
+  element: <ProtectedRoute element={<ListTripsPage />} />,
  },
 ]);
 
 export function App() {
- return <RouterProvider router={router} />;
+ return (
+  <AuthProvider>
+   <RouterProvider router={router} />
+  </AuthProvider>
+ );
 }
