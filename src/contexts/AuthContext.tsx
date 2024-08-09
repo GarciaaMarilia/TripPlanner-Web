@@ -5,12 +5,9 @@ import {
  useEffect,
  useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
 
 interface AuthContextType {
  isAuthenticated: boolean;
-//  login: (token: string) => void;
-//  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -21,7 +18,6 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-//  const navigate = useNavigate();
 
  useEffect(() => {
   const token = localStorage.getItem("token");
@@ -29,7 +25,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
    setIsAuthenticated(true);
   }
  }, []);
-
 
  return (
   <AuthContext.Provider value={{ isAuthenticated }}>

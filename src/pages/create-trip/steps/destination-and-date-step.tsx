@@ -33,7 +33,6 @@ export function DestinationAndDateStep({
  function closeDatePicker() {
   return setIsDatePickerOpen(false);
  }
-
  const displayedDate = () => {
   if (!eventStartAndEndDates) {
    return "When?";
@@ -41,11 +40,11 @@ export function DestinationAndDateStep({
   const { from, to } = eventStartAndEndDates;
 
   if (from && to) {
-   return `${format(from, "d' de 'LLL")} to ${format(to, "d' de 'LLL")}`;
+   return `${format(from, "d' of 'MMMM")} to ${format(to, "d' of 'MMMM")}`;
   }
 
   if (from) {
-   return format(from, "d' de 'LLL");
+   return format(from, "d' of 'MMMM");
   }
  };
 

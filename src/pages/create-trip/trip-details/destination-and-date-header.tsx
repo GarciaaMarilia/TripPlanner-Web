@@ -17,9 +17,9 @@ export function DestinationAndDateHeader() {
  }, [tripId]);
 
  const displayedDate = trip
-  ? format(trip.starts_at, "d' de 'LLL")
-     .concat(" até ")
-     .concat(format(trip.ends_at, "d' de 'LLL"))
+  ? format(trip.starts_at, "d' of 'MMMM")
+     .concat(" to ")
+     .concat(format(trip.ends_at, "d' of 'MMMM"))
   : null;
 
  return (

@@ -30,11 +30,11 @@ export function CreateTripPage() {
   const { from, to } = eventStartAndEndDates;
 
   if (from && to) {
-   return `${format(from, "d' de 'LLL")} to ${format(to, "d' de 'LLL")}`;
+   return `${format(from, "d' of 'MMMM")} to ${format(to, "d' of 'MMMM")}`;
   }
 
   if (from) {
-   return format(from, "d' de 'LLL");
+   return format(from, "d' of 'MMMM");
   }
  }
 
@@ -109,20 +109,31 @@ export function CreateTripPage() {
    return;
   }
 
-  const response = await api.post("/trips", {
+  const user_id = Number(localStorage.getItem("userId"));
+
+  const tripData = {
    destination,
+   user_id,
    starts_at: eventStartAndEndDates.from,
    ends_at: eventStartAndEndDates.to,
    emails_to_invite: emailsToInvite,
    owner_name: ownerName,
    owner_email: ownerEmail,
-  });
+  };
 
-  const { tripId } = response.data;
-  const userId = localStorage.getItem("userId");
-
-  //   navigate(`/trips/${tripId}`);
-  navigate(`/listTrips/${userId}`);
+  try {
+   const response = await api.post("/trips", tripData);
+   const { tripId } = response.data;
+   navigate(`/trips/${tripId}`);
+  } catch (error) {
+   if (error.response) {
+    console.error("Error response data:", error.response.data);
+   } else if (error.request) {
+    console.error("Error request data:", error.request);
+   } else {
+    console.error("Error message:", error.message);
+   }
+  }
  }
 
  return (
