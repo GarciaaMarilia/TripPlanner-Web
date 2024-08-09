@@ -126,13 +126,14 @@ export function CreateTripPage() {
    const { tripId } = response.data;
    navigate(`/trips/${tripId}`);
   } catch (error) {
-   if (error.response) {
-    console.error("Error response data:", error.response.data);
-   } else if (error.request) {
-    console.error("Error request data:", error.request);
-   } else {
-    console.error("Error message:", error.message);
-   }
+    return error;
+//    if (error.response) {
+//     console.error("Error response data:", error.response.data);
+//    } else if (error.request) {
+//     console.error("Error request data:", error.request);
+//    } else {
+//     console.error("Error message:", error.message);
+//    }
   }
  }
 
