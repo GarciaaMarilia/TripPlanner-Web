@@ -1,6 +1,6 @@
 export interface Trip {
  id: string;
- id_user: number;
+ id_user: string;
  destination: string;
  starts_at: Date;
  ends_at?: Date;
@@ -12,7 +12,10 @@ export interface Trip {
  user: User;
 }
 
-export interface Participant {}
+export interface Participant {
+ id: string;
+ name: string;
+}
 
 export interface Activity {}
 

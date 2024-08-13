@@ -7,29 +7,24 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { TripDetailsPage } from "./pages/create-trip/trip-details";
 import { ListTripsPage } from "./pages/create-trip/list-trips/list-trips";
 
-const router = createBrowserRouter(
-    [
-     {
-      path: "/",
-      element: <LoginPage />,
-     },
-     {
-      path: "/createTrip",
-      element: <ProtectedRoute element={<CreateTripPage />} />,
-     },
-     {
-      path: "/trips/:tripId",
-      element: <ProtectedRoute element={<TripDetailsPage />} />,
-     },
-     {
-      path: "/listTrips/:userId",
-      element: <ProtectedRoute element={<ListTripsPage />} />,
-     },
-    ],
-    {
-     basename: "/TripPlanner-Web", 
-    }
-   );
+const router = createBrowserRouter([
+ {
+  path: "/",
+  element: <LoginPage />,
+ },
+ {
+  path: "/createTrip",
+  element: <ProtectedRoute element={<CreateTripPage />} />,
+ },
+ {
+  path: "/trips/:tripId",
+  element: <ProtectedRoute element={<TripDetailsPage />} />,
+ },
+ {
+  path: "/listTrips/:userId",
+  element: <ProtectedRoute element={<ListTripsPage />} />,
+ },
+]);
 
 export function App() {
  return (

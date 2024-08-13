@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
 
 import { api } from "../../lib/axios";
+import { Trip } from "../../models/models";
 import { ConfirmTripModal } from "./confirm-trip-modal";
 import { InviteGuestsModal } from "./invite-guests-modal";
 import { InviteGuestsStep } from "./steps/invite-guests-step";
@@ -12,13 +13,13 @@ import { DestinationAndDateStep } from "./steps/destination-and-date-step";
 
 export function CreateTripPage() {
  const navigate = useNavigate();
+ const [ownerName, setOwnerName] = useState("");
+ const [ownerEmail, setOwnerEmail] = useState("");
+ const [destination, setDestination] = useState("");
  const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
  const [isGuestsModalOpen, setIsGuestsModalOpen] = useState(false);
  const [emailsToInvite, setEmailsToInvite] = useState<string[]>([]);
  const [isConfirmTripModalOpen, setIsConfirmTripModalOpen] = useState(false);
- const [destination, setDestination] = useState("");
- const [ownerName, setOwnerName] = useState("");
- const [ownerEmail, setOwnerEmail] = useState("");
  const [eventStartAndEndDates, setEventStartAndEndDates] = useState<
   DateRange | undefined
  >();
@@ -109,11 +110,11 @@ export function CreateTripPage() {
    return;
   }
 
-  const user_id = Number(localStorage.getItem("userId"));
+  const id_user = localStorage.getItem("userId");
 
-  const tripData = {
+  const tripData: Trip = {
    destination,
-   user_id,
+   id_user,
    starts_at: eventStartAndEndDates.from,
    ends_at: eventStartAndEndDates.to,
    emails_to_invite: emailsToInvite,
@@ -126,14 +127,7 @@ export function CreateTripPage() {
    const { tripId } = response.data;
    navigate(`/trips/${tripId}`);
   } catch (error) {
-    return error;
-//    if (error.response) {
-//     console.error("Error response data:", error.response.data);
-//    } else if (error.request) {
-//     console.error("Error request data:", error.request);
-//    } else {
-//     console.error("Error message:", error.message);
-//    }
+   return error;
   }
  }
 
