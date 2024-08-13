@@ -112,7 +112,7 @@ export function CreateTripPage() {
 
   const id_user = localStorage.getItem("userId");
 
-  const tripData: Trip = {
+  const tripData = {
    destination,
    id_user,
    starts_at: eventStartAndEndDates.from,
