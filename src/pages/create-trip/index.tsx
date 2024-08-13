@@ -5,7 +5,6 @@ import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
 
 import { api } from "../../lib/axios";
-import { Trip } from "../../models/models";
 import { ConfirmTripModal } from "./confirm-trip-modal";
 import { InviteGuestsModal } from "./invite-guests-modal";
 import { InviteGuestsStep } from "./steps/invite-guests-step";
