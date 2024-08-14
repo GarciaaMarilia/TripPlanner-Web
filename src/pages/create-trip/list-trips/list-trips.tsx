@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 import { Plane } from "lucide-react";
 
-import { api } from "../../../lib/axios";
 import { Trip } from "../../../models/models";
 import { Button } from "../../../components/button";
+import { getTrips } from "../../../services/get-trips-service";
 import { getDisplayedDateToList } from "../../../utils/formatDate";
 
 export function ListTripsPage() {
@@ -24,27 +24,14 @@ export function ListTripsPage() {
   navigate(`/trips/${tripId}`);
  }
 
- async function getTrips() {
-  if (userId) {
-   api
-    .get(`listTrips/${userId}`)
-    .then((response) => setTrips(response.data.trips))
-    .catch((error) => {
-     if (error.response) {
-      console.error("Error response data:", error.response.data);
-     } else if (error.request) {
-      console.error("Error request data:", error.request);
-     } else {
-      console.error("Error message:", error.message);
-     }
-    });
-  } else {
-   console.error("No User ID found in localStorage");
-  }
- }
-
  useEffect(() => {
-  getTrips();
+  if (userId) {
+   const fetchTrips = async () => {
+    const tripsData = await getTrips(userId);
+    setTrips(tripsData);
+   };
+   fetchTrips();
+  }
  }, []);
 
  return (
