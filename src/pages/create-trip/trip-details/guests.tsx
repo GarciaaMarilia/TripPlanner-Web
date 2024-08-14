@@ -4,14 +4,9 @@ import { useParams } from "react-router-dom";
 import { CheckCircle2, CircleDashed, UserCog } from "lucide-react";
 
 import { Button } from "../../../components/button";
+import { Participant } from "../../../models/models";
 import { getGuests } from "../../../services/get-guests-service";
 
-interface Participant {
- id: string;
- name: string | null;
- email: string;
- is_confirmed: boolean;
-}
 
 export function Guests() {
  const { tripId } = useParams();

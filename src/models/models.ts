@@ -14,11 +14,27 @@ export interface Trip {
 
 export interface Participant {
  id: string;
- name: string;
+ name: string | null;
+ email: string;
+ is_confirmed: boolean;
 }
 
-export interface Activity {}
+export interface Activity {
+ id: string;
+ title: string;
+ occurs_at: Date;
+ trip_id: string;
+}
 
-export interface Link {}
+export interface Link {
+ id: string;
+ title: string;
+ url: string;
+ trip_id: string;
+}
 
-export interface User {}
+export interface User {
+ id: string;
+ email: string;
+ name: string;
+}
