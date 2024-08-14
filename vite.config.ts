@@ -2,7 +2,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  base: '/TripPlanner-Web/'
-})
+export default defineConfig(({ mode }) => {
+  const base = mode === 'production' ? '/TripPlanner-Web/' : '/';
+
+  return {
+    plugins: [react()],
+    base,
+  };
+});
