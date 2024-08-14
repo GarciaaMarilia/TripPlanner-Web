@@ -3,14 +3,14 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 
 import { Guests } from "./guests";
-import { Activities } from "./activities";
+import { ActivitiesPage } from "./activities";
 import { ImportantLinks } from "./important-links";
 import { CreateActivityModal } from "./create-activity-modal";
 import { DestinationAndDateHeader } from "./destination-and-date-header";
 
 export function TripDetailsPage() {
  const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] =
-  useState(false);
+  useState<boolean>(false);
 
  function openCreateActivityModal() {
   setIsCreateActivityModalOpen(true);
@@ -38,7 +38,7 @@ export function TripDetailsPage() {
       </button>
      </div>
 
-     <Activities />
+     <ActivitiesPage />
     </div>
 
     <div className="w-80 space-y-6">

@@ -5,26 +5,18 @@ import { format } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { CircleCheck } from "lucide-react";
 
+import { Activities } from "../../../models/models";
 import { getActivities } from "../../../services/get-activities-service";
 
-interface Activity {
- data: string;
- activities: {
-  id: string;
-  title: string;
-  occurs_at: string;
- }[];
-}
-
-export function Activities() {
+export function ActivitiesPage() {
  const { tripId } = useParams();
- const [activities, setActivities] = useState<Activity[]>([]);
+ const [activitiesList, setActivitiesList] = useState<Activities[]>([]);
 
  useEffect(() => {
   if (tripId) {
    const fetchActivities = async () => {
     const activitiesData = await getActivities(tripId);
-    setActivities(activitiesData);
+    setActivitiesList(activitiesData);
    };
 
    fetchActivities();
@@ -33,20 +25,20 @@ export function Activities() {
 
  return (
   <div className="space-y-8">
-   {activities.map((category) => {
+   {activitiesList.map((day) => {
     return (
-     <div key={category.data} className="space-y-2.5">
+     <div key={day.data} className="space-y-2.5">
       <div className="flex gap-2 items-baseline">
        <span className="text-xl text-zinc-300 font-semibold">
-        Day {format(category.data, "d")}
+        Day {format(day.data, "d")}
        </span>
        <span className="text-xs text-zinc-500">
-        {format(category.data, "EEEE", { locale: enUS })}
+        {format(day.data, "EEEE", { locale: enUS })}
        </span>
       </div>
-      {category.activities.length > 0 ? (
+      {day.activities.length > 0 ? (
        <div>
-        {category.activities.map((activity) => {
+        {day.activities.map((activity) => {
          return (
           <div key={activity.id} className="space-y-2.5">
            <div className="px-4 py-2.5 bg-zinc-900 rounded-xl shadow-shape flex items-center gap-3">

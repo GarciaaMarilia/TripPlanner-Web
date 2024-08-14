@@ -41,7 +41,8 @@ export function CreateActivityModal({
    })
    .then(() => {
     openConfirmModal();
-   });
+   })
+   ;
  }
 
  return (

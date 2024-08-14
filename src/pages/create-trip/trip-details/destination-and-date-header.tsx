@@ -4,20 +4,29 @@ import { useParams } from "react-router-dom";
 import { MapPin, Calendar, Settings2 } from "lucide-react";
 
 import { Trip } from "./types";
-import { api } from "../../../lib/axios";
 import { Button } from "../../../components/button";
 import { getDisplayedDate } from "../../../utils/formatDate";
+import { getTripDetails } from "../../../services/get-trip-details";
 
 export function DestinationAndDateHeader() {
  const { tripId } = useParams();
  const [trip, setTrip] = useState<Trip | undefined>();
 
  useEffect(() => {
-  api.get(`trips/${tripId}`).then((response) => setTrip(response.data.trip));
+  if (tripId) {
+   const fetchTrip = async () => {
+    const tripData = await getTripDetails(tripId);
+    setTrip(tripData);
+   };
+   fetchTrip();
+  }
  }, [tripId]);
 
  const formatedDate = trip
-  ? getDisplayedDate({ from: new Date(trip.starts_at), to: new Date(trip.ends_at) })
+  ? getDisplayedDate({
+     from: new Date(trip.starts_at),
+     to: new Date(trip.ends_at),
+    })
   : null;
 
  return (

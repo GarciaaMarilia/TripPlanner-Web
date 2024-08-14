@@ -19,11 +19,15 @@ export interface Participant {
  is_confirmed: boolean;
 }
 
+export interface Activities {
+ data: string;
+ activities: Activity[];
+}
+
 export interface Activity {
  id: string;
  title: string;
  occurs_at: Date;
- trip_id: string;
 }
 
 export interface Link {
