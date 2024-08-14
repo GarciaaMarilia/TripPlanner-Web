@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 
 import { Link2, Plus } from "lucide-react";
-
-import { api } from "../../../lib/axios";
 import { useParams } from "react-router-dom";
+
+import { Link } from "../../../models/models";
 import { Button } from "../../../components/button";
 import { RegisterLinkModal } from "./register-link-modal";
-
-interface Link {
- title: string;
- url: string;
-}
+import { getLinks } from "../../../services/get-links-service";
 
 export function ImportantLinks() {
  const { tripId } = useParams();
@@ -26,7 +22,15 @@ export function ImportantLinks() {
  }
 
  useEffect(() => {
-  api.get(`trips/${tripId}/links`).then((response) => setLinks(response.data.links));
+  if (tripId) {
+   const fetchLinks = async () => {
+    const linksData = await getLinks(tripId);
+
+    setLinks(linksData);
+   };
+
+   fetchLinks();
+  }
  }, [tripId]);
 
  return (
