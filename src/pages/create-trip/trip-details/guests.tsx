@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 
 import { CheckCircle2, CircleDashed, UserCog } from "lucide-react";
 
-import { api } from "../../../lib/axios";
 import { Button } from "../../../components/button";
+import { getGuests } from "../../../services/get-guests-service";
 
 interface Participant {
  id: string;
@@ -18,9 +18,14 @@ export function Guests() {
  const [participants, setParticipants] = useState<Participant[]>([]);
 
  useEffect(() => {
-  api
-   .get(`trips/${tripId}/participants`)
-   .then((response) => setParticipants(response.data.participants));
+  if (tripId) {
+   const fetchParticipants = async () => {
+    const participantsData = await getGuests(tripId);
+    setParticipants(participantsData);
+   };
+
+   fetchParticipants();
+  }
  }, [tripId]);
 
  return (

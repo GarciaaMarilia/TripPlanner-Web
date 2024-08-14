@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { CircleCheck } from "lucide-react";
 
-import { getActivities } from "../../../services/get-activities";
+import { getActivities } from "../../../services/get-activities-service";
 
 interface Activity {
  data: string;
