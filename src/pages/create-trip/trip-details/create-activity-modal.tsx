@@ -54,7 +54,7 @@ export function CreateActivityModal({
    const result = await createActivity(tripId, activityData);
    if (result && result.success) {
     openConfirmModal();
-   } else {
+   } else if(result && result.message){
     openErrorModal();
     setErrorMessage(result?.message);
    }
