@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { CircleCheck } from "lucide-react";
 
-import { api } from "../../../lib/axios";
+import { getActivities } from "../../../services/get-activities";
 
 interface Activity {
  data: string;
@@ -21,9 +21,14 @@ export function Activities() {
  const [activities, setActivities] = useState<Activity[]>([]);
 
  useEffect(() => {
-  api
-   .get(`trips/${tripId}/activities`)
-   .then((response) => setActivities(response.data.activities));
+  if (tripId) {
+   const fetchActivities = async () => {
+    const activitiesData = await getActivities(tripId);
+    setActivities(activitiesData);
+   };
+
+   fetchActivities();
+  }
  }, [tripId]);
 
  return (
