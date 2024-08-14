@@ -3,9 +3,11 @@ import { useParams } from "react-router-dom";
 
 import { Calendar, Tag, X } from "lucide-react";
 
-import { api } from "../../../lib/axios";
+import { Activity } from "../../../models/models";
 import { Button } from "../../../components/button";
 import { ConfirmModal, ModalType } from "../../../components/modal";
+import { createActivity } from "../../../services/create-activity-service";
+import { ErrorModal, ErrorModalType } from "../../../components/error-modal";
 
 interface CreateActivityModalProps {
  closeCreateActivityModal: () => void;
@@ -15,7 +17,9 @@ export function CreateActivityModal({
  closeCreateActivityModal,
 }: CreateActivityModalProps) {
  const { tripId } = useParams();
- const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+ const [errorMessage, setErrorMessage] = useState<string>("");
+ const [isErrorModalOpen, setIsErrorModalOpen] = useState<boolean>(false);
+ const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
 
  function openConfirmModal() {
   setIsConfirmModalOpen(true);
@@ -26,7 +30,15 @@ export function CreateActivityModal({
   window.document.location.reload();
  }
 
- async function createActivity(event: FormEvent<HTMLFormElement>) {
+ function openErrorModal() {
+  setIsErrorModalOpen(true);
+ }
+
+ function closeErrorModal() {
+  setIsErrorModalOpen(false);
+ }
+
+ async function handleCreateActivity(event: FormEvent<HTMLFormElement>) {
   event.preventDefault();
 
   const data = new FormData(event.currentTarget);
@@ -34,15 +46,19 @@ export function CreateActivityModal({
   const title = data.get("title")?.toString();
   const occurs_at = data.get("occurs_at")?.toString();
 
-  await api
-   .post(`/trips/${tripId}/activities`, {
-    title,
-    occurs_at,
-   })
-   .then(() => {
+  if (tripId && title && occurs_at) {
+   const activityData: Activity = {
+    title: title,
+    occurs_at: occurs_at,
+   };
+   const result = await createActivity(tripId, activityData);
+   if (result && result.success) {
     openConfirmModal();
-   })
-   ;
+   } else {
+    openErrorModal();
+    setErrorMessage(result?.message);
+   }
+  }
  }
 
  return (
@@ -61,7 +77,7 @@ export function CreateActivityModal({
      </p>
     </div>
 
-    <form onSubmit={createActivity} className="space-y-3">
+    <form onSubmit={handleCreateActivity} className="space-y-3">
      <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
       <Tag className="text-zinc-400 size-5" />
       <input
@@ -88,6 +104,14 @@ export function CreateActivityModal({
      <ConfirmModal
       type={ModalType.Activity}
       closeConfirmModal={closeConfirmModal}
+     />
+    )}
+
+    {isErrorModalOpen && (
+     <ErrorModal
+      message={errorMessage}
+      type={ErrorModalType.CreateError}
+      closeErrorModal={closeErrorModal}
      />
     )}
    </div>

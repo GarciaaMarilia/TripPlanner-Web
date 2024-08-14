@@ -25,9 +25,9 @@ export interface Activities {
 }
 
 export interface Activity {
- id: string;
+ id?: string;
  title: string;
- occurs_at: Date;
+ occurs_at: Date | string;
 }
 
 export interface Link {

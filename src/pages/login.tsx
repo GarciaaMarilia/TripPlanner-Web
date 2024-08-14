@@ -5,7 +5,7 @@ import { ArrowRight, KeyRound, User } from "lucide-react";
 
 import { api } from "../lib/axios";
 import { Button } from "../components/button";
-import { ErrorModal, ModalType } from "../components/error-modal";
+import { ErrorModal, ErrorModalType } from "../components/error-modal";
 
 export function LoginPage() {
  const navigate = useNavigate();
@@ -28,12 +28,12 @@ export function LoginPage() {
      navigate(`/listTrips/${userId}`);
     }
    } else {
-    setModalType(ModalType.AuthenticationFailed);
+    setModalType(ErrorModalType.AuthenticationFailed);
     setErrorModalIsOpen(true);
     throw new Error("Authentication failed.");
    }
   } catch (error) {
-   setModalType(ModalType.InvalidCredentials);
+   setModalType(ErrorModalType.InvalidCredentials);
    setErrorModalIsOpen(true);
    throw new Error("Invalid email or password");
   }
