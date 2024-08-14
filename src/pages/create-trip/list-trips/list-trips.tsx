@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { format } from "date-fns";
 import { Plane } from "lucide-react";
 
 import { api } from "../../../lib/axios";
 import { Trip } from "../../../models/models";
 import { Button } from "../../../components/button";
+import { getDisplayedDateToList } from "../../../utils/formatDate";
 
 export function ListTripsPage() {
  const navigate = useNavigate();
@@ -23,19 +23,6 @@ export function ListTripsPage() {
  function navigateTrip(tripId: string) {
   navigate(`/trips/${tripId}`);
  }
-
- const displayedDate = (starts_at: Date, ends_at?: Date) => {
-  if (starts_at && ends_at) {
-   return `${format(starts_at, "d' of 'MMMM")} to ${format(
-    ends_at,
-    "d' of 'MMMM"
-   )}`;
-  }
-
-  if (starts_at) {
-   return format(starts_at, "d' of 'MMMM");
-  }
- };
 
  async function getTrips() {
   if (userId) {
@@ -80,7 +67,8 @@ export function ListTripsPage() {
         className="h-16 w-1/2 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3"
        >
         <button onClick={() => navigateTrip(trip.id)}>
-         {trip.destination} - {displayedDate(trip.starts_at, trip.ends_at)}
+         {trip.destination} -{" "}
+         {getDisplayedDateToList(trip.starts_at, trip.ends_at)}
         </button>
        </div>
       ))

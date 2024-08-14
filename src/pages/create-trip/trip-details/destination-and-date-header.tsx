@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { format } from "date-fns";
 import { MapPin, Calendar, Settings2 } from "lucide-react";
 
 import { Trip } from "./types";
 import { api } from "../../../lib/axios";
 import { Button } from "../../../components/button";
+import { getDisplayedDate } from "../../../utils/formatDate";
 
 export function DestinationAndDateHeader() {
  const { tripId } = useParams();
@@ -16,10 +16,8 @@ export function DestinationAndDateHeader() {
   api.get(`trips/${tripId}`).then((response) => setTrip(response.data.trip));
  }, [tripId]);
 
- const displayedDate = trip
-  ? format(trip.starts_at, "d' of 'MMMM")
-     .concat(" to ")
-     .concat(format(trip.ends_at, "d' of 'MMMM"))
+ const formatedDate = trip
+  ? getDisplayedDate({ from: new Date(trip.starts_at), to: new Date(trip.ends_at) })
   : null;
 
  return (
@@ -32,7 +30,7 @@ export function DestinationAndDateHeader() {
    <div className="flex items-center gap-5">
     <div className="flex items-center gap-2">
      <Calendar className="size-5 text-zinc-400" />
-     <span className="text-zinc-100">{displayedDate}</span>
+     <span className="text-zinc-100">{formatedDate}</span>
     </div>
 
     <div className="w-px h-6 bg-zinc-800" />

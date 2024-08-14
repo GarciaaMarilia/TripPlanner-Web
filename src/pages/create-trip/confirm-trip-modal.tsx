@@ -1,9 +1,12 @@
 import { FormEvent } from "react";
+
 import { User, X } from "lucide-react";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { Button } from "../../components/button";
 
 interface ConfirmTripModalProps {
+ loading: boolean;
  destination: string;
  date: string;
  closeConfirmTripModal: () => void;
@@ -19,6 +22,7 @@ export function ConfirmTripModal({
  setOwnerName,
  destination,
  date,
+ loading,
 }: ConfirmTripModalProps) {
  return (
   <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
@@ -63,7 +67,7 @@ export function ConfirmTripModal({
      </div>
 
      <Button type="submit" size="full">
-      Confirm creation of the trip
+      {loading ? <CircularProgress className="test-zinc-950" size={30}/> : "Confirm creation of the trip"}
      </Button>
     </form>
    </div>

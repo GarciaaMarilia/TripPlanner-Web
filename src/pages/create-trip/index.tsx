@@ -1,44 +1,31 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
 
 import { api } from "../../lib/axios";
 import { ConfirmTripModal } from "./confirm-trip-modal";
+import { getDisplayedDate } from "../../utils/formatDate";
 import { InviteGuestsModal } from "./invite-guests-modal";
 import { InviteGuestsStep } from "./steps/invite-guests-step";
 import { DestinationAndDateStep } from "./steps/destination-and-date-step";
 
 export function CreateTripPage() {
  const navigate = useNavigate();
- const [ownerName, setOwnerName] = useState("");
- const [ownerEmail, setOwnerEmail] = useState("");
- const [destination, setDestination] = useState("");
- const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
- const [isGuestsModalOpen, setIsGuestsModalOpen] = useState(false);
+ const [loading, setLoading] = useState<boolean>(false);
+ const [ownerName, setOwnerName] = useState<string>("");
+ const [ownerEmail, setOwnerEmail] = useState<string>("");
+ const [destination, setDestination] = useState<string>("");
+ const [isGuestsInputOpen, setIsGuestsInputOpen] = useState<boolean>(false);
+ const [isGuestsModalOpen, setIsGuestsModalOpen] = useState<boolean>(false);
  const [emailsToInvite, setEmailsToInvite] = useState<string[]>([]);
- const [isConfirmTripModalOpen, setIsConfirmTripModalOpen] = useState(false);
+ const [isConfirmTripModalOpen, setIsConfirmTripModalOpen] =
+  useState<boolean>(false);
  const [eventStartAndEndDates, setEventStartAndEndDates] = useState<
   DateRange | undefined
  >();
 
- function getDisplayedDate() {
-  if (!eventStartAndEndDates) {
-   return null;
-  }
-  const { from, to } = eventStartAndEndDates;
-
-  if (from && to) {
-   return `${format(from, "d' of 'MMMM")} to ${format(to, "d' of 'MMMM")}`;
-  }
-
-  if (from) {
-   return format(from, "d' of 'MMMM");
-  }
- }
-
- const displayedDate = getDisplayedDate() as string;
+ const displayedDate = getDisplayedDate(eventStartAndEndDates) as string;
 
  function openGuestsInput() {
   setIsGuestsInputOpen(true);
@@ -110,7 +97,7 @@ export function CreateTripPage() {
   }
 
   const id_user = localStorage.getItem("userId");
-
+  setLoading(true);
   const tripData = {
    destination,
    id_user,
@@ -127,6 +114,8 @@ export function CreateTripPage() {
    navigate(`/trips/${tripId}`);
   } catch (error) {
    return error;
+  } finally {
+   setLoading(false);
   }
  }
 
@@ -184,6 +173,7 @@ export function CreateTripPage() {
 
    {isConfirmTripModalOpen && (
     <ConfirmTripModal
+     loading={loading}
      createTrip={createTrip}
      setOwnerName={setOwnerName}
      setOwnerEmail={setOwnerEmail}

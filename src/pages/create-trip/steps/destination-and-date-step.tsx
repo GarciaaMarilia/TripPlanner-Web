@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-import { format } from "date-fns";
 import "react-day-picker/dist/style.css";
 import { DateRange, DayPicker } from "react-day-picker";
 import { ArrowRight, Calendar, MapPin, Settings2, X } from "lucide-react";
 
 import { Button } from "../../../components/button";
+import { getDisplayedDate } from "../../../utils/formatDate";
 
 interface DestinationAndDateStepProps {
  isGuestsInputOpen: boolean;
@@ -33,20 +33,11 @@ export function DestinationAndDateStep({
  function closeDatePicker() {
   return setIsDatePickerOpen(false);
  }
- const displayedDate = () => {
-  if (!eventStartAndEndDates) {
-   return "When?";
-  }
-  const { from, to } = eventStartAndEndDates;
 
-  if (from && to) {
-   return `${format(from, "d' of 'MMMM")} to ${format(to, "d' of 'MMMM")}`;
-  }
-
-  if (from) {
-   return format(from, "d' of 'MMMM");
-  }
- };
+ const placeholdDate = eventStartAndEndDates
+  ? getDisplayedDate(eventStartAndEndDates)
+  : "When?";
+ 
 
  return (
   <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
@@ -67,7 +58,7 @@ export function DestinationAndDateStep({
     className="flex items-center gap-2 text-left w-[240px]"
    >
     <Calendar className="size-5 text-zinc-400" />
-    <span className="text-lg placeholder-zinc-400 w-40">{displayedDate()}</span>
+    <span className="text-lg placeholder-zinc-400 w-40">{placeholdDate}</span>
    </button>
 
    {isDatePickerOpen && (
