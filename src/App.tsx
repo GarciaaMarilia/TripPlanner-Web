@@ -4,6 +4,7 @@ import { LoginPage } from "./pages/login";
 import { CreateTripPage } from "./pages/create-trip";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
+import { TripsProvider } from "./contexts/TripsContext";
 import { TripDetailsPage } from "./pages/create-trip/trip-details";
 import { ListTripsPage } from "./pages/create-trip/list-trips/list-trips";
 
@@ -30,13 +31,15 @@ const router = createBrowserRouter(
    element: <h1>404: Page Not Found</h1>,
   },
  ],
- { basename: "/TripPlanner-Web" }
+ { basename: import.meta.env.MODE === "production" ? "/TripPlanner-Web" : "/" }
 );
 
 export function App() {
  return (
   <AuthProvider>
-   <RouterProvider router={router} />
+   <TripsProvider>
+    <RouterProvider router={router} />
+   </TripsProvider>
   </AuthProvider>
  );
 }
