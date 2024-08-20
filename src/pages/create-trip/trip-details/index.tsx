@@ -1,16 +1,20 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import { Plus } from "lucide-react";
 
 import { Guests } from "./guests";
 import { ActivitiesPage } from "./activities";
 import { ImportantLinks } from "./important-links";
+import { Button } from "../../../components/button";
 import { CreateActivityModal } from "./create-activity-modal";
 import { DestinationAndDateHeader } from "./destination-and-date-header";
 
 export function TripDetailsPage() {
  const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] =
   useState<boolean>(false);
+  const location = useLocation();
+  const { disabled } = location.state || {};
 
  function openCreateActivityModal() {
   setIsCreateActivityModalOpen(true);
@@ -19,6 +23,7 @@ export function TripDetailsPage() {
  function closeCreateActivityModal() {
   setIsCreateActivityModalOpen(false);
  }
+
 
  return (
   <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
@@ -29,13 +34,14 @@ export function TripDetailsPage() {
      <div className="flex items-center justify-between">
       <h2 className="text-3xl font-semibold">Activities</h2>
 
-      <button
+      <Button
        onClick={openCreateActivityModal}
-       className="bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-lime-400"
+       variant={disabled ? "secondary" : "primary"}
+       disabled={!!disabled}
       >
        <Plus className="size-5" />
        Create an activity
-      </button>
+      </Button>
      </div>
 
      <ActivitiesPage />

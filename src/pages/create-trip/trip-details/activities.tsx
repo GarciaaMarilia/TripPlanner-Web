@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { format } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { CircleCheck } from "lucide-react";
+import { CircleCheck, Trash } from "lucide-react";
 
 import { Activities } from "../../../models/models";
 import { getActivities } from "../../../services/get-activities-service";
@@ -47,6 +47,8 @@ export function ActivitiesPage() {
             <span className="text-zinc-400 text-sm ml-auto">
              {format(activity.occurs_at, "HH:mm")}h
             </span>
+
+            <Trash className="size-5" />
            </div>
           </div>
          );

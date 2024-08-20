@@ -17,8 +17,8 @@ export function ListTripsPage() {
   navigate("/createTrip");
  }
 
- function navigateTrip(tripId: string) {
-  navigate(`/trips/${tripId}`);
+ function navigateTrip(tripId: string, isDisabled?: boolean) {
+  navigate(`/trips/${tripId}`, { state: { disabled: isDisabled } });
  }
 
  if (isLoading) return <SkeletonLoading />;
@@ -38,15 +38,15 @@ export function ListTripsPage() {
 
      {pastTrips && pastTrips.length > 0 ? (
       pastTrips.map((trip) => (
-       <div
+       <Button
         key={trip.id}
-        className="h-16 w-1/2 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3"
+        size="full"
+        variant="list"
+        onClick={() => navigateTrip(trip.id, true)}
        >
-        <button onClick={() => navigateTrip(trip.id)}>
-         {trip.destination} -{" "}
-         {getDisplayedDateToList(trip.starts_at, trip.ends_at)}
-        </button>
-       </div>
+        {trip.destination} -{" "}
+        {getDisplayedDateToList(trip.starts_at, trip.ends_at)}
+       </Button>
       ))
      ) : (
       <p>You don't have past trips.</p>
@@ -56,15 +56,15 @@ export function ListTripsPage() {
 
      {nextTrips && nextTrips.length > 0 ? (
       nextTrips.map((trip) => (
-       <div
+       <Button
         key={trip.id}
-        className="h-16 w-1/2 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3"
+        size="full"
+        variant="list"
+        onClick={() => navigateTrip(trip.id)}
        >
-        <button onClick={() => navigateTrip(trip.id)}>
-         {trip.destination} -{" "}
-         {getDisplayedDateToList(trip.starts_at, trip.ends_at)}
-        </button>
-       </div>
+        {trip.destination} -{" "}
+        {getDisplayedDateToList(trip.starts_at, trip.ends_at)}
+       </Button>
       ))
      ) : (
       <p>You don't have next trips yet.</p>

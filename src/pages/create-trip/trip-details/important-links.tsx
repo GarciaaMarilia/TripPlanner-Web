@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Link2, Plus } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 import { Link } from "../../../models/models";
 import { Button } from "../../../components/button";
@@ -10,6 +10,8 @@ import { getLinks } from "../../../services/get-links-service";
 
 export function ImportantLinks() {
  const { tripId } = useParams();
+ const location = useLocation();
+ const { disabled } = location.state || {};
  const [links, setLinks] = useState<Link[]>([]);
  const [isRegisterLinkModalOpen, setIsRegisterLinkModalOpen] = useState(false);
 
@@ -35,16 +37,7 @@ export function ImportantLinks() {
 
  return (
   <div className="space-y-6">
-   <h2 className="font-semibold text-xl">
-    Important{" "}
-    <link
-     rel="alternate"
-     href="atom.xml"
-     type="application/atom+xml"
-     title="Atom"
-    />
-    links
-   </h2>
+   <h2 className="font-semibold text-xl">Important links</h2>
    {links.length > 0 ? (
     <div className="space-y-5">
      {links.map((link) => {
@@ -71,7 +64,7 @@ export function ImportantLinks() {
     </p>
    )}
 
-   <Button onClick={openRegisterLinkModal} variant="secondary" size="full">
+   <Button disabled={disabled} onClick={openRegisterLinkModal} variant="secondary" size="full">
     <Plus className="size-5" />
     Register new link
    </Button>
