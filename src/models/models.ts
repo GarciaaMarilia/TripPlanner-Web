@@ -25,9 +25,10 @@ export interface Activities {
 }
 
 export interface Activity {
- id?: string;
+ id: string;
  title: string;
  occurs_at: Date | string;
+ trip_id: string;
 }
 
 export interface Link {

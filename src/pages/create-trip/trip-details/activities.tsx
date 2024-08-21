@@ -6,11 +6,35 @@ import { enUS } from "date-fns/locale";
 import { CircleCheck, Trash } from "lucide-react";
 
 import { Activities } from "../../../models/models";
+import { DeleteModal } from "../../../components/delete-modal";
 import { getActivities } from "../../../services/get-activities-service";
+import { deleteActivityService } from "../../../services/delete-activity-service";
 
 export function ActivitiesPage() {
  const { tripId } = useParams();
+ const [isConfirmModal, setIsConfirmModal] = useState<boolean>(false);
  const [activitiesList, setActivitiesList] = useState<Activities[]>([]);
+ const [selectedActivityId, setSelectedActivityId] = useState<string | null>(
+  null
+ );
+
+ async function deleteActivity(activityId: string) {
+  if (tripId && activityId) {
+   await deleteActivityService(tripId, activityId);
+  }
+  closeConfirmModal();
+ }
+
+ function openConfirmModal(activityId: string) {
+  setSelectedActivityId(activityId);
+  setIsConfirmModal(true);
+ }
+
+ function closeConfirmModal() {
+  setIsConfirmModal(false);
+  setSelectedActivityId(null);
+  window.document.location.reload();
+ }
 
  useEffect(() => {
   if (tripId) {
@@ -47,8 +71,9 @@ export function ActivitiesPage() {
             <span className="text-zinc-400 text-sm ml-auto">
              {format(activity.occurs_at, "HH:mm")}h
             </span>
-
-            <Trash className="size-5" />
+            <button onClick={() => openConfirmModal(activity.id)}>
+             <Trash className="size-5" />
+            </button>
            </div>
           </div>
          );
@@ -62,6 +87,13 @@ export function ActivitiesPage() {
      </div>
     );
    })}
+
+   {isConfirmModal && selectedActivityId && (
+    <DeleteModal
+     closeDeleteModal={closeConfirmModal}
+     confirmDeleteActivity={() => deleteActivity(selectedActivityId)}
+    />
+   )}
   </div>
  );
 }
