@@ -30,7 +30,7 @@ export function ListTripsPage() {
      <div className="flex items-center justify-between">
       <h2 className="text-3xl font-semibold">{`Hi, ${username}`}</h2>
       <Button onClick={createtrip}>
-       <Plane className="size-5" />
+       <Plane className="sm:size-5 size-10" />
        Create a trip
       </Button>
      </div>

@@ -37,12 +37,11 @@ export function DestinationAndDateStep({
  const placeholdDate = eventStartAndEndDates
   ? getDisplayedDate(eventStartAndEndDates)
   : "When?";
- 
 
  return (
-  <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
+  <div className="bg-zinc-900 px-4 py-4 rounded-xl flex flex-col sm:flex-row sm:items-center shadow-shape gap-3 sm:gap-4">
    <div className="flex items-center gap-2 flex-1">
-    <MapPin className="size-5 text-zinc-400" />
+    <MapPin className="sm:size-5 size-6 text-zinc-400" />
     <input
      type="text"
      disabled={isGuestsInputOpen}
@@ -57,8 +56,8 @@ export function DestinationAndDateStep({
     disabled={isGuestsInputOpen}
     className="flex items-center gap-2 text-left w-[240px]"
    >
-    <Calendar className="size-5 text-zinc-400" />
-    <span className="text-lg placeholder-zinc-400 w-40">{placeholdDate}</span>
+    <Calendar className="text-zinc-400 sm:size-5 size-10" />
+    <span className="text-lg text-zinc-400">{placeholdDate}</span>
    </button>
 
    {isDatePickerOpen && (
@@ -81,8 +80,6 @@ export function DestinationAndDateStep({
      </div>
     </div>
    )}
-
-   <div className="w-px h-6 bg-zinc-800" />
 
    {isGuestsInputOpen ? (
     <Button onClick={closeGuestsInput} variant="secondary">
