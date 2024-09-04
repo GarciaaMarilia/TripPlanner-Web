@@ -35,20 +35,19 @@ export function TripDetailsPage() {
 
    <main className="flex gap-16 px-4">
     <div className="flex-1 space-y-6">
-     <div className="flex items-center justify-between">
-      <h2 className="text-3xl font-semibold">Activities</h2>
+     <h2 className="text-3xl font-semibold">Activities</h2>
+     <Button
+      onClick={openCreateActivityModal}
+      variant={disabled ? "secondary" : "primary"}
+      disabled={!!disabled}
+      size="full"
+     >
+      <Plus className="sm:size-5 size-8" />
+      Create an activity
+     </Button>
 
-      <Button
-       onClick={openCreateActivityModal}
-       variant={disabled ? "secondary" : "primary"}
-       disabled={!!disabled}
-      >
-       <Plus className="sm:size-5 size-8" />
-       Create an activity
-      </Button>
-     </div>
-     <Button onClick={toggleSidebar} className="xl:hidden block" size="full">
-      <Eye className="sm:size-5 size-8" />
+     <Button onClick={toggleSidebar} size="full" variant="view_more">
+      <Eye className="sm:size-5 size-6" />
       View more
      </Button>
 
