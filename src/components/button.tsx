@@ -17,8 +17,9 @@ const buttonVariants = tv({
   },
 
   size: {
-   default: "py-2 sm:w-[240px] w-[130px]",
+   default: "sm:w-[240px] w-[130px]",
    full: "w-full h-11",
+   details_page:"h-11 sm:w-auto w-full"
   },
  },
 

@@ -7,6 +7,7 @@ import { Guests } from "./guests";
 import { ActivitiesPage } from "./activities";
 import { ImportantLinks } from "./important-links";
 import { Button } from "../../../components/button";
+import { RegisterLinkModal } from "./register-link-modal";
 import { CreateActivityModal } from "./create-activity-modal";
 import { DestinationAndDateHeader } from "./destination-and-date-header";
 
@@ -14,6 +15,8 @@ export function TripDetailsPage() {
  const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] =
   useState<boolean>(false);
  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+ const [isRegisterLinkModalOpen, setIsRegisterLinkModalOpen] = useState(false);
+
  const location = useLocation();
  const { disabled } = location.state || {};
 
@@ -23,6 +26,14 @@ export function TripDetailsPage() {
 
  function closeCreateActivityModal() {
   setIsCreateActivityModalOpen(false);
+ }
+
+ function openRegisterLinkModal() {
+  setIsRegisterLinkModalOpen(true);
+ }
+
+ function closeRegisterLinkModal() {
+  setIsRegisterLinkModalOpen(false);
  }
 
  function toggleSidebar() {
@@ -63,7 +74,7 @@ export function TripDetailsPage() {
       <X className="size-5 text-zinc-400" />
      </button>
      <div className="w-80 space-y-6">
-      <ImportantLinks />
+      <ImportantLinks openRegisterLinkModal={openRegisterLinkModal}/>
 
       <div className="w-full h-px bg-zinc-800" />
 
@@ -74,6 +85,10 @@ export function TripDetailsPage() {
 
    {isCreateActivityModalOpen && (
     <CreateActivityModal closeCreateActivityModal={closeCreateActivityModal} />
+   )}
+
+   {isRegisterLinkModalOpen && (
+    <RegisterLinkModal closeRegisterLinkModal={closeRegisterLinkModal} />
    )}
   </div>
  );

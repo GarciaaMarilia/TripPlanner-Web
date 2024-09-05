@@ -5,23 +5,17 @@ import { useLocation, useParams } from "react-router-dom";
 
 import { Link } from "../../../models/models";
 import { Button } from "../../../components/button";
-import { RegisterLinkModal } from "./register-link-modal";
 import { getLinks } from "../../../services/get-links-service";
 
-export function ImportantLinks() {
+interface ImportantLinksProps {
+ openRegisterLinkModal: () => void;
+}
+
+export function ImportantLinks({ openRegisterLinkModal }: ImportantLinksProps) {
  const { tripId } = useParams();
  const location = useLocation();
  const { disabled } = location.state || {};
  const [links, setLinks] = useState<Link[]>([]);
- const [isRegisterLinkModalOpen, setIsRegisterLinkModalOpen] = useState(false);
-
- function openRegisterLinkModal() {
-  setIsRegisterLinkModalOpen(true);
- }
-
- function closeRegisterLinkModal() {
-  setIsRegisterLinkModalOpen(false);
- }
 
  useEffect(() => {
   if (tripId) {
@@ -64,14 +58,15 @@ export function ImportantLinks() {
     </p>
    )}
 
-   <Button disabled={disabled} onClick={openRegisterLinkModal} variant="secondary" size="full">
+   <Button
+    disabled={disabled}
+    onClick={openRegisterLinkModal}
+    variant="secondary"
+    size="full"
+   >
     <Plus className="size-5" />
     Register new link
    </Button>
-
-   {isRegisterLinkModalOpen && (
-    <RegisterLinkModal closeRegisterLinkModal={closeRegisterLinkModal} />
-   )}
   </div>
  );
 }
