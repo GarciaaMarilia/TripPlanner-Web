@@ -7,6 +7,8 @@ import { api } from "../lib/axios";
 import { Button } from "../components/button";
 import { ErrorModal, ErrorModalType } from "../components/error-modal";
 
+import plannerImg from "../../public/assets/logo.svg";
+
 export function LoginPage() {
  const navigate = useNavigate();
  const [email, setEmail] = useState<string>("");
@@ -19,8 +21,7 @@ export function LoginPage() {
    const response = await api.post("/login", { email, password });
 
    if (response.data.token) {
-    
-    localStorage.setItem("token", response.data.token); 
+    localStorage.setItem("token", response.data.token);
     if (response.data.user) {
      const userId = response.data.user.id;
      localStorage.setItem("userId", userId);
@@ -43,7 +44,7 @@ export function LoginPage() {
   <div className="h-screen flex items-center justify-center bg-pattern bg-no-repeat bg-center">
    <div className="max-w-3xl w-full px-6 text-center space-y-10">
     <div className="flex flex-col items-center gap-3">
-     <img src="src/assets/logo.svg" alt="plann.er" />
+     <img src={plannerImg} alt="plann.er" />
      <p className="text-zinc-300 text-lg">
       Invite your friends and plan your next trip!
      </p>

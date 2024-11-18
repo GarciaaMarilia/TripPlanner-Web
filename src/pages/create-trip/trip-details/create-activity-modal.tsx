@@ -48,13 +48,15 @@ export function CreateActivityModal({
 
   if (tripId && title && occurs_at) {
    const activityData: Activity = {
+    id: new Date().toDateString(),
     title: title,
     occurs_at: occurs_at,
+    trip_id: tripId,
    };
    const result = await createActivity(tripId, activityData);
    if (result && result.success) {
     openConfirmModal();
-   } else if(result && result.message){
+   } else if (result && result.message) {
     openErrorModal();
     setErrorMessage(result?.message);
    }
