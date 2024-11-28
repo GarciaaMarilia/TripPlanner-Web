@@ -19,7 +19,7 @@ export function LoginPage() {
  async function authenticate() {
   try {
    const response = await api.post("/login", { email, password });
-
+console.log(api)
    if (response.data.token) {
     localStorage.setItem("token", response.data.token);
     if (response.data.user) {
