@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
-import { CheckCircle2, CircleDashed, UserCog } from "lucide-react";
+import { CheckCircle2, CircleDashed, Trash, UserCog } from "lucide-react";
 
 import { Button } from "../../../components/button";
 import { Participant } from "../../../models/models";
 import { getGuests } from "../../../services/get-guests-service";
 
-
 export function Guests() {
  const { tripId } = useParams();
+ const location = useLocation();
+ const { disabled } = location.state || {};
  const [participants, setParticipants] = useState<Participant[]>([]);
 
  useEffect(() => {
@@ -34,9 +35,12 @@ export function Guests() {
       className="flex items-center justify-between gap-4"
      >
       <div className="space-y-1.5">
-       <span className="block font-medium text-zinc-100">
-        {participant.name ?? `Convidado ${index}`}
-       </span>
+       <div className="flex gap-2">
+        <span className="block font-medium text-zinc-100">
+         {participant.name ?? `Convidado ${index}`}
+        </span>
+        <Trash className="size-5" />
+       </div>
        <span className="block text-sm text-zinc-400 truncate">
         {participant.email}
        </span>
@@ -51,7 +55,7 @@ export function Guests() {
     ))}
    </div>
 
-   <Button variant="secondary" size="full">
+   <Button variant={disabled ? "disabled" : "primary"} size="full">
     <UserCog className="size-5" />
     Manage guests
    </Button>
