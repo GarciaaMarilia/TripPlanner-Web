@@ -8,6 +8,7 @@ import { Button } from "../../../components/button";
 import { RegisterLinkModal } from "./register-link-modal";
 import { getLinks } from "../../../services/get-links-service";
 import { DeleteModal } from "../../../components/delete-modal";
+import { deleteLinkService } from "../../../services/delete-link-service";
 
 export function ImportantLinks() {
  const { tripId } = useParams();
@@ -34,9 +35,16 @@ export function ImportantLinks() {
 
  function closeDeleteLinkModal() {
   setDeleteLinkModal(false);
+  setSelectedLinkId("");
  }
 
- function deleteLink(id: string) {}
+ async function deleteLink(linkId: string) {
+  if (tripId && linkId) {
+   await deleteLinkService(tripId, linkId);
+  }
+  closeDeleteLinkModal();
+  window.document.location.reload();
+ }
 
  useEffect(() => {
   if (tripId) {
