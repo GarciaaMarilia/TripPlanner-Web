@@ -90,8 +90,9 @@ export function ActivitiesPage() {
 
    {isConfirmModal && selectedActivityId && (
     <DeleteModal
+     type="Activity"
      closeDeleteModal={closeConfirmModal}
-     confirmDeleteActivity={() => deleteActivity(selectedActivityId)}
+     confirmDeleteItem={() => deleteActivity(selectedActivityId)}
     />
    )}
   </div>

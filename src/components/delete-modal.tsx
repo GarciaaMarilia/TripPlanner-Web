@@ -2,12 +2,14 @@ import { Button } from "./button";
 
 interface DeleteModalProps {
  closeDeleteModal: () => void;
- confirmDeleteActivity: () => void;
+ confirmDeleteItem: () => void;
+ type: string;
 }
 
 export function DeleteModal({
  closeDeleteModal,
- confirmDeleteActivity,
+ confirmDeleteItem,
+ type
 }: DeleteModalProps) {
  return (
   <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
@@ -15,13 +17,13 @@ export function DeleteModal({
     <div className="space-y-2">
      <div className="flex items-center justify-between">
       <h2 className="font-lg font-semibold">
-       Are you sure to delete this activity?
+       Are you sure to delete this {type}?
       </h2>
      </div>
     </div>
 
     <div className="flex items-center flex-direction: row justify-between gap-4">
-     <Button onClick={confirmDeleteActivity} variant="danger" size="full">
+     <Button onClick={confirmDeleteItem} variant="danger" size="full">
       Delete
      </Button>
 

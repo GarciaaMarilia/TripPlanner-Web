@@ -36,7 +36,7 @@ export function TripDetailsPage() {
 
       <Button
        onClick={openCreateActivityModal}
-       variant={disabled ? "secondary" : "primary"}
+       variant={disabled ? "disabled" : "primary"}
        disabled={!!disabled}
       >
        <Plus className="size-5" />

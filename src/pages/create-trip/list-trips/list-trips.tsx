@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import { Plane } from "lucide-react";
+import { Plane, Trash } from "lucide-react";
 
 import { Button } from "../../../components/button";
 import { useTrips } from "../../../contexts/TripsContext";
@@ -64,6 +64,7 @@ export function ListTripsPage() {
        >
         {trip.destination} -{" "}
         {getDisplayedDateToList(trip.starts_at, trip.ends_at)}
+        <Trash className="size-5"/>
        </Button>
       ))
      ) : (
