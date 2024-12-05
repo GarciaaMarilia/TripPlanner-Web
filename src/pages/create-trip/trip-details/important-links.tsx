@@ -69,7 +69,10 @@ export function ImportantLinks() {
         <div className="space-y-1.5">
          <div className="flex gap-2">
           <span className="block font-medium text-zinc-100">{link.title}</span>
-          <button onClick={() => openDeleteLinkModal(link.id)}>
+          <button
+           onClick={() => openDeleteLinkModal(link.id)}
+           disabled={disabled}
+          >
            <Trash className="size-5" />
           </button>
          </div>
