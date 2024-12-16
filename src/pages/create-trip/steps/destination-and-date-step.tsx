@@ -39,8 +39,8 @@ export function DestinationAndDateStep({
   : "When?";
 
  return (
-  <div className="bg-zinc-900 px-4 py-4 rounded-xl flex flex-col sm:flex-row sm:items-center shadow-shape gap-3 sm:gap-4">
-   <div className="flex items-center gap-2 flex-1">
+  <div className="bg-zinc-900 p-4 rounded-xl flex flex-col sm:flex-row sm:items-center shadow-shape gap-3 sm:gap-4">
+   <div className="flex items-center gap-2 flex-1 min-w-[250px]">
     <MapPin className="sm:size-5 size-6 text-zinc-400" />
     <input
      type="text"
@@ -54,20 +54,20 @@ export function DestinationAndDateStep({
    <button
     onClick={openDatePicker}
     disabled={isGuestsInputOpen}
-    className="flex items-center gap-2 text-left w-[240px]"
+    className="flex items-center gap-2 text-left w-full"
    >
-    <Calendar className="text-zinc-400 sm:size-5 size-10" />
+    <Calendar className="text-zinc-400 sm:size-5 size-6" />
     <span className="text-lg text-zinc-400">{placeholdDate}</span>
    </button>
 
    {isDatePickerOpen && (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
-     <div className="rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-10">
+     <div className="rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5 w-[90%] max-w-md">
       <div className="space-y-2">
        <div className="flex items-center justify-between">
-        <h2 className="font-lg font-semibold">Selecione a data</h2>
-        <button>
-         <X className="size-5 text-zinc-400" onClick={closeDatePicker} />
+        <h2 className="text-lg font-semibold">Select the date</h2>
+        <button onClick={closeDatePicker}>
+         <X className="size-5 text-zinc-400" />
         </button>
        </div>
       </div>
@@ -76,22 +76,25 @@ export function DestinationAndDateStep({
        mode="range"
        selected={eventStartAndEndDates}
        onSelect={setEventStartAndEndDates}
+       className="w-full"
       />
      </div>
     </div>
    )}
 
-   {isGuestsInputOpen ? (
-    <Button onClick={closeGuestsInput} variant="secondary">
-     Change location/date
-     <Settings2 className="size-5" />
-    </Button>
-   ) : (
-    <Button onClick={openGuestsInput}>
-     Continue
-     <ArrowRight className="size-5" />
-    </Button>
-   )}
+   <div className="w-full sm:w-auto flex justify-center">
+    {isGuestsInputOpen ? (
+     <Button onClick={closeGuestsInput} variant="secondary">
+      Change location/date
+      <Settings2 className="size-5 ml-2" />
+     </Button>
+    ) : (
+     <Button onClick={openGuestsInput}>
+      Continue
+      <ArrowRight className="size-5 ml-2" />
+     </Button>
+    )}
+   </div>
   </div>
  );
 }
