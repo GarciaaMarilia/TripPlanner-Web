@@ -1,24 +1,20 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { Eye, Plus, X } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { Guests } from "./guests";
 import { ActivitiesPage } from "./activities";
 import { ImportantLinks } from "./important-links";
 import { Button } from "../../../components/button";
-import { RegisterLinkModal } from "./register-link-modal";
 import { CreateActivityModal } from "./create-activity-modal";
 import { DestinationAndDateHeader } from "./destination-and-date-header";
 
 export function TripDetailsPage() {
  const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] =
   useState<boolean>(false);
- const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
- const [isRegisterLinkModalOpen, setIsRegisterLinkModalOpen] = useState(false);
-
- const location = useLocation();
- const { disabled } = location.state || {};
+  const location = useLocation();
+  const { disabled } = location.state || {};
 
  function openCreateActivityModal() {
   setIsCreateActivityModalOpen(true);
@@ -28,17 +24,6 @@ export function TripDetailsPage() {
   setIsCreateActivityModalOpen(false);
  }
 
- function openRegisterLinkModal() {
-  setIsRegisterLinkModalOpen(true);
- }
-
- function closeRegisterLinkModal() {
-  setIsRegisterLinkModalOpen(false);
- }
-
- function toggleSidebar() {
-  setIsSidebarOpen(!isSidebarOpen);
- }
 
  return (
   <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
@@ -62,30 +47,17 @@ export function TripDetailsPage() {
      <ActivitiesPage />
     </div>
 
-    <div
-     className={`fixed inset-0 z-50 transition-transform transform ${
-      isSidebarOpen ? "translate-x-0" : "translate-x-full"
-     } sm:translate-x-0 sm:relative sm:w-80 bg-zinc-900 sm:bg-transparent px-[10%] sm:px-0`}
-    >
-     <button onClick={toggleSidebar} className="sm:hidden block py-10">
-      <X className="size-5 text-zinc-400" />
-     </button>
-     <div className="w-80 space-y-6">
-      <ImportantLinks openRegisterLinkModal={openRegisterLinkModal}/>
+    <div className="w-80 space-y-6">
+     <ImportantLinks />
 
-      <div className="w-full h-px bg-zinc-800" />
+     <div className="w-full h-px bg-zinc-800" />
 
-      <Guests />
-     </div>
+     <Guests />
     </div>
    </main>
 
    {isCreateActivityModalOpen && (
     <CreateActivityModal closeCreateActivityModal={closeCreateActivityModal} />
-   )}
-
-   {isRegisterLinkModalOpen && (
-    <RegisterLinkModal closeRegisterLinkModal={closeRegisterLinkModal} />
    )}
   </div>
  );
