@@ -9,11 +9,11 @@ const buttonVariants = tv({
   variant: {
    primary: "bg-lime-300 text-lime-950 hover:bg-lime-400",
    secondary: "bg-zinc-800 text-zinc-200 hover:bg-zinc-700",
-   list: "bg-zinc-900 py-8 rounded-xl flex shadow-shape gap-3 justify-start",
+   list:
+    "bg-zinc-900 py-8 rounded-xl flex shadow-shape gap-3 justify-start hover:bg-lime-300 hover:text-zinc-900",
    danger:
     "bg-rose-800 hover:bg-rose-900 rounded-xl flex shadow-shape gap-3 justify-center",
-   view_more:
-    "bg-lime-300 text-lime-950 sm:hidden block hover:bg-lime-400 flex",
+   disabled: "bg-zinc-800 text-zinc-200",
   },
 
   size: {

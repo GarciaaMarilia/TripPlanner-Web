@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 
-import { useParams } from "react-router-dom";
 import { MapPin, Calendar, Settings2 } from "lucide-react";
 
 import { Trip } from "./types";
@@ -10,6 +10,8 @@ import { getTripDetails } from "../../../services/get-trip-details";
 
 export function DestinationAndDateHeader() {
  const { tripId } = useParams();
+ const location = useLocation();
+ const { disabled } = location.state || {};
  const [trip, setTrip] = useState<Trip | undefined>();
 
  useEffect(() => {
@@ -42,11 +44,9 @@ export function DestinationAndDateHeader() {
      <span className="text-zinc-100 text-sm sm:text-lg">{formatedDate}</span>
     </div>
 
-    <Button
-     variant="secondary"
-     className="text-sm sm:text-base"
-     size="details_page"
-    >
+    <div className="w-px h-6 bg-zinc-800" />
+
+    <Button variant={disabled ? "disabled" : "primary"}>
      Change location/date
      <Settings2 className="size-5" />
     </Button>

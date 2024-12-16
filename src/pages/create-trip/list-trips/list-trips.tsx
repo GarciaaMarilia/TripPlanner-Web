@@ -1,15 +1,21 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Plane } from "lucide-react";
+import { Plane, Trash } from "lucide-react";
 
 import { Button } from "../../../components/button";
 import { useTrips } from "../../../contexts/TripsContext";
+import { NavigateTripParams } from "../../../models/models";
 import { SkeletonLoading } from "../../../components/skeleton";
+import { DeleteModal } from "../../../components/delete-modal";
 import { getDisplayedDateToList } from "../../../utils/formatDate";
+import { deleteTripService } from "../../../services/delete-trip-service";
 
 export function ListTripsPage() {
  const navigate = useNavigate();
  const { pastTrips, nextTrips, isLoading } = useTrips();
+ const [selectedTripId, setSelectedTripId] = useState<string>("");
+ const [deletTripModal, setDeleteTripModal] = useState<boolean>(false);
 
  const username = localStorage.getItem("username");
 
@@ -17,8 +23,33 @@ export function ListTripsPage() {
   navigate("/createTrip");
  }
 
- function navigateTrip(tripId: string, isDisabled?: boolean) {
-  navigate(`/trips/${tripId}`, { state: { disabled: isDisabled } });
+ function navigateTrip({
+  tripId,
+  userId,
+  isDisabled,
+  isOwner,
+ }: NavigateTripParams) {
+  navigate(`/trips/${tripId}`, {
+   state: { disabled: isDisabled, userId: userId, isOwner },
+  });
+ }
+
+ function openDeleteTripModal(id: string) {
+  setSelectedTripId(id);
+  setDeleteTripModal(true);
+ }
+
+ function closeDeleteTripModal() {
+  setSelectedTripId("");
+  setDeleteTripModal(false);
+ }
+
+ async function deleteTrip(tripId: string) {
+  if (tripId) {
+   await deleteTripService(tripId);
+  }
+  closeDeleteTripModal();
+  window.document.location.reload();
  }
 
  if (isLoading) return <SkeletonLoading />;
@@ -42,7 +73,7 @@ export function ListTripsPage() {
         key={trip.id}
         size="full"
         variant="list"
-        onClick={() => navigateTrip(trip.id, true)}
+        onClick={() => navigateTrip({ tripId: trip.id, isDisabled: true })}
        >
         {trip.destination} -{" "}
         {getDisplayedDateToList(trip.starts_at, trip.ends_at)}
@@ -60,10 +91,18 @@ export function ListTripsPage() {
         key={trip.id}
         size="full"
         variant="list"
-        onClick={() => navigateTrip(trip.id)}
+        onClick={() => navigateTrip({ tripId: trip.id })}
        >
         {trip.destination} -{" "}
         {getDisplayedDateToList(trip.starts_at, trip.ends_at)}
+        <button
+         onClick={(e) => {
+          e.stopPropagation();
+          openDeleteTripModal(trip.id);
+         }}
+        >
+         <Trash className="size-5" />
+        </button>
        </Button>
       ))
      ) : (
@@ -71,6 +110,14 @@ export function ListTripsPage() {
      )}
     </div>
    </main>
+
+   {selectedTripId && deletTripModal && (
+    <DeleteModal
+     type="Trip"
+     closeDeleteModal={closeDeleteTripModal}
+     confirmDeleteItem={() => deleteTrip(selectedTripId)}
+    />
+   )}
   </div>
  );
 }

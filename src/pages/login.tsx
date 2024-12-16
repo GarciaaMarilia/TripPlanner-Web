@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { get } from "lodash";
 import { ArrowRight, KeyRound, User } from "lucide-react";
 
 import { api } from "../lib/axios";
 import { Button } from "../components/button";
 import { ErrorModal, ErrorModalType } from "../components/error-modal";
+
+import plannerImg from "../../public/assets/logo.svg";
 
 export function LoginPage() {
  const navigate = useNavigate();
@@ -14,17 +17,26 @@ export function LoginPage() {
  const [modalType, setModalType] = useState<string>("");
  const [errorModalIsOpen, setErrorModalIsOpen] = useState<boolean>(false);
 
- async function authenticate() {
+ const authenticate = async () => {
+  if (!email || !password) {
+   setModalType(ErrorModalType.InvalidCredentials);
+   setErrorModalIsOpen(true);
+   return;
+  }
   try {
    const response = await api.post("/login", { email, password });
 
-   if (response.data.token) {
-    
-    localStorage.setItem("token", response.data.token); 
-    if (response.data.user) {
-     const userId = response.data.user.id;
+   const token = get(response, "data.token");
+
+   if (token) {
+    localStorage.setItem("token", token);
+
+    const user = get(response, "data.user");
+
+    if (user) {
+     const userId = get(user, "id");
      localStorage.setItem("userId", userId);
-     localStorage.setItem("username", response.data.user.name);
+     localStorage.setItem("username", get(user, "name"));
      navigate(`/listTrips/${userId}`);
     }
    } else {
@@ -37,13 +49,13 @@ export function LoginPage() {
    setErrorModalIsOpen(true);
    throw new Error("Invalid email or password");
   }
- }
+ };
 
  return (
   <div className="h-screen flex items-center justify-center bg-pattern bg-no-repeat bg-center">
    <div className="max-w-3xl w-full px-6 text-center space-y-10">
     <div className="flex flex-col items-center gap-3">
-     <img src="src/assets/logo.svg" alt="plann.er" />
+     <img src={plannerImg} alt="plann.er" />
      <p className="text-zinc-300 text-lg">
       Invite your friends and plan your next trip!
      </p>
@@ -73,7 +85,12 @@ export function LoginPage() {
       />
      </div>
     </div>
-    <Button size="full" onClick={authenticate}>
+    <Button
+     size="full"
+     onClick={authenticate}
+     disabled={!email || !password}
+     variant={!email || !password ? "disabled" : "primary"}
+    >
      Continue
      <ArrowRight className="size-5" />
     </Button>

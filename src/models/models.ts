@@ -16,6 +16,7 @@ export interface Participant {
  id: string;
  name: string | null;
  email: string;
+ is_owner: boolean;
  is_confirmed: boolean;
 }
 
@@ -43,3 +44,10 @@ export interface User {
  email: string;
  name: string;
 }
+
+export type NavigateTripParams = {
+ tripId: string;
+ userId?: string;
+ isOwner?: boolean;
+ isDisabled?: boolean;
+};

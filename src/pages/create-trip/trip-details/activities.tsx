@@ -23,6 +23,7 @@ export function ActivitiesPage() {
    await deleteActivityService(tripId, activityId);
   }
   closeConfirmModal();
+  window.document.location.reload();
  }
 
  function openConfirmModal(activityId: string) {
@@ -33,7 +34,6 @@ export function ActivitiesPage() {
  function closeConfirmModal() {
   setIsConfirmModal(false);
   setSelectedActivityId(null);
-  window.document.location.reload();
  }
 
  useEffect(() => {
@@ -90,8 +90,9 @@ export function ActivitiesPage() {
 
    {isConfirmModal && selectedActivityId && (
     <DeleteModal
+     type="Activity"
      closeDeleteModal={closeConfirmModal}
-     confirmDeleteActivity={() => deleteActivity(selectedActivityId)}
+     confirmDeleteItem={() => deleteActivity(selectedActivityId)}
     />
    )}
   </div>
