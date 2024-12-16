@@ -14,13 +14,13 @@ export function InviteGuestsStep({
  openGuestsModal,
 }: InviteGuestsStepProps) {
  return (
-  <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
+  <div className="sm:h-16 h-24 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
    <button
     type="button"
     onClick={openGuestsModal}
     className="flex items-center gap-2 flex-1 text-left"
    >
-    <UserRoundPlus className="size-5 text-zinc-400" />
+    <UserRoundPlus className="sm:size-5 size-7 text-zinc-400" />
     {emailsToInvite.length > 0 ? (
      <span className="text-zinc-100 text-lg flex-1">
       {emailsToInvite.length} invited person(s)

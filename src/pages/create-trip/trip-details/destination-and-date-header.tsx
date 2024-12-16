@@ -32,16 +32,16 @@ export function DestinationAndDateHeader() {
   : null;
 
  return (
-  <div className="px-4 h-16 rounded-xl bg-zinc-900 shadow-shape flex items-center justify-between">
+  <div className="px-4 py-2 rounded-xl bg-zinc-900 shadow-shape flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 ">
    <div className="flex items-center gap-2">
-    <MapPin className="size-5 text-zinc-400" />
-    <span className="text-zinc-100">{trip?.destination}</span>
+    <MapPin className="sm:size-8 size-5 text-zinc-400" />
+    <span className="text-zinc-100 sm:text-lg">{trip?.destination}</span>
    </div>
 
-   <div className="flex items-center gap-5">
+   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5 w-full sm:w-auto">
     <div className="flex items-center gap-2">
-     <Calendar className="size-5 text-zinc-400" />
-     <span className="text-zinc-100">{formatedDate}</span>
+     <Calendar className="sm:size-8 size-5 text-zinc-400" />
+     <span className="text-zinc-100 text-sm sm:text-lg">{formatedDate}</span>
     </div>
 
     <div className="w-px h-6 bg-zinc-800" />

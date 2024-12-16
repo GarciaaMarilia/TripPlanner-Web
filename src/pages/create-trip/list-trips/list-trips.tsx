@@ -56,16 +56,17 @@ export function ListTripsPage() {
 
  return (
   <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
-   <main className="flex gap-16 px-4">
+   <main className="flex flex-col lg:flex-row gap-8 px-4">
     <div className="flex-1 space-y-6">
-     <div className="flex items-center justify-between">
-      <h2 className="text-3xl font-semibold">{`Hi, ${username}`}</h2>
-      <Button onClick={createtrip}>
-       <Plane className="size-5" />
+     <div className="flex flex-wrap items-center justify-between gap-4">
+      <h2 className="text-2xl sm:text-3xl font-semibold">{`Hi, ${username}`}</h2>
+      <Button onClick={createtrip} className="w-full sm:w-auto">
+       <Plane className="sm:w-5 w-4" />
        Create a trip
       </Button>
      </div>
-     <p className="text-xl font-semibold">Your past trips</p>
+
+     <p className="text-lg sm:text-xl font-semibold mt-6">Your past trips</p>
 
      {pastTrips && pastTrips.length > 0 ? (
       pastTrips.map((trip) => (
@@ -83,7 +84,7 @@ export function ListTripsPage() {
       <p>You don't have past trips.</p>
      )}
 
-     <p className="text-xl font-semibold">Your next trips</p>
+     <p className="text-lg sm:text-xl font-semibold mt-6">Your next trips</p>
 
      {nextTrips && nextTrips.length > 0 ? (
       nextTrips.map((trip) => (

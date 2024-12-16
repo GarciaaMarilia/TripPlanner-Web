@@ -46,6 +46,11 @@ export function CreateActivityModal({
   const title = data.get("title")?.toString();
   const occurs_at = data.get("occurs_at")?.toString();
 
+  if (!title || !occurs_at) {
+   setErrorMessage("Incorrect title or date");
+   return openErrorModal();
+  }
+
   if (tripId && title && occurs_at) {
    const activityData: Activity = {
     id: new Date().toDateString(),
@@ -64,7 +69,7 @@ export function CreateActivityModal({
  }
 
  return (
-  <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
+  <div className="fixed inset-0 z-[1000] bg-black/60 flex items-center justify-center">
    <div className="w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5">
     <div className="space-y-2">
      <div className="flex items-center justify-between">
