@@ -3,7 +3,7 @@ import { tv, VariantProps } from "tailwind-variants";
 
 const buttonVariants = tv({
  base:
-  "rounded-lg px-5 sm:py-0 py-6 font-medium flex items-center justify-center gap-2",
+  "rounded-lg px-5 sm:h-10 h-6 sm:py-0 py-8 font-medium flex items-center justify-center gap-2",
 
  variants: {
   variant: {
@@ -19,7 +19,6 @@ const buttonVariants = tv({
   size: {
    default: "sm:w-[240px] w-[160px] h-10",
    full: "w-full",
-   details_page:"h-11 sm:w-auto w-full",
   },
  },
 
