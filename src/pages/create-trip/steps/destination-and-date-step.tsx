@@ -54,7 +54,7 @@ export function DestinationAndDateStep({
    <button
     onClick={openDatePicker}
     disabled={isGuestsInputOpen}
-    className="flex items-center gap-2 text-left w-full"
+    className="flex items-center gap-2 text-left w-[250px]"
    >
     <Calendar className="text-zinc-400 sm:size-5 size-6" />
     <span className="text-lg text-zinc-400">{placeholdDate}</span>
@@ -89,7 +89,7 @@ export function DestinationAndDateStep({
       <Settings2 className="size-5 ml-2" />
      </Button>
     ) : (
-     <Button onClick={openGuestsInput}>
+     <Button onClick={openGuestsInput} variant="primary" size="full">
       Continue
       <ArrowRight className="size-5 ml-2" />
      </Button>

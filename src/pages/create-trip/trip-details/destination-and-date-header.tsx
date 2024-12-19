@@ -32,22 +32,19 @@ export function DestinationAndDateHeader() {
   : null;
 
  return (
-  <div className="px-4 sm:py-2 py-4 rounded-xl bg-zinc-900 shadow-shape flex flex-col sm:flex-row items-start sm:justify-between sm:items-center sm:space-y-3 gap-2">
+  <div className="flex flex-col sm:flex-row gap-y-4 px-4 py-4 justify-between rounded-xl shadow-shape bg-zinc-900 ">
    <div className="flex items-center gap-2">
-    <MapPin className="sm:size-8 size-5 text-zinc-400" />
-    <span className="text-zinc-100 text-sm sm:text-lg">
-     {trip?.destination}
-    </span>
+    <MapPin className="sm:size-8 size-6 text-zinc-400" />
+    <span className="text-zinc-100 text-lg">{trip?.destination}</span>
    </div>
 
    <div className="flex items-center gap-2">
-    <Calendar className="sm:size-8 size-5 text-zinc-400" />
-    <span className="text-zinc-100 text-sm sm:text-lg">{formatedDate}</span>
+    <Calendar className="sm:size-8 size-6 text-zinc-400" />
+    <span className="text-zinc-100 text-lg">{formatedDate}</span>
    </div>
 
-   <div className="hidden sm:block w-px h-6 bg-zinc-800" />
-   <div className="flex items-center gap-2">
-    <Button variant={disabled ? "disabled" : "primary"}>
+   <div className="items-center">
+    <Button variant={disabled ? "disabled" : "primary"} size="full">
      Change location/date
      <Settings2 className="size-5" />
     </Button>

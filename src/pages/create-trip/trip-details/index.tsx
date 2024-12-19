@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import { Menu, Plus, X } from "lucide-react";
@@ -14,6 +14,7 @@ export function TripDetailsPage() {
  const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] =
   useState<boolean>(false);
  const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(false);
+ const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
  const location = useLocation();
  const { disabled } = location.state || {};
 
@@ -29,19 +30,31 @@ export function TripDetailsPage() {
   setIsSideBarOpen((prev) => !prev);
  }
 
+ useEffect(() => {
+  const handleResize = () => {
+   setIsSmallScreen(window.innerWidth < 640);
+  };
+
+  handleResize();
+  window.addEventListener("resize", handleResize);
+
+  return () => window.removeEventListener("resize", handleResize);
+ }, []);
+
  return (
   <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
    <DestinationAndDateHeader />
 
    <main className="flex gap-16 px-4">
     <div className="flex-1 space-y-6">
-     <div className="flex items-center justify-between">
+     <div className="flex flex-wrap flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-y-4">
       <h2 className="text-3xl font-semibold">Activities</h2>
 
       <Button
        onClick={openCreateActivityModal}
        variant={disabled ? "disabled" : "primary"}
        disabled={!!disabled}
+       size={isSmallScreen ? "full" : "default"}
       >
        <Plus className="size-5" />
        Create an activity

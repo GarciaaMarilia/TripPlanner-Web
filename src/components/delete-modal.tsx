@@ -1,3 +1,4 @@
+import ReactDOM from "react-dom";
 import { Button } from "./button";
 
 interface DeleteModalProps {
@@ -9,9 +10,9 @@ interface DeleteModalProps {
 export function DeleteModal({
  closeDeleteModal,
  confirmDeleteItem,
- type
+ type,
 }: DeleteModalProps) {
- return (
+ return ReactDOM.createPortal(
   <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
    <div className="w-[340px] rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5">
     <div className="space-y-2">
@@ -32,6 +33,7 @@ export function DeleteModal({
      </Button>
     </div>
    </div>
-  </div>
+  </div>,
+  document.body
  );
 }
