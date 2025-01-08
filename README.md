@@ -1,30 +1,57 @@
-# React + TypeScript + Vite
+# TripPlanner-Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**TripPlanner-Web** is a web application designed to help users efficiently organize and plan their trips. With a user-friendly interface and powerful features, it enables seamless itinerary management, destination selection, and travel tracking.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Interactive User Interface**: Built with React and Material-UI for a modern and responsive design.
+- **Itinerary Management**: Easily create, view, and modify trip plans.
+- **Date Selection**: Integrated date picker powered by `react-day-picker` for flexible scheduling.
+- **Local Data Storage**: Save trip details locally using `localforage`.
+- **Efficient Sorting and Filtering**: Utilize `lodash` and `match-sorter` for smooth data manipulation.
+- **Routing**: Manage routes and navigation with `react-router-dom`.
+- **Custom Styling**: Tailored components styled with Emotion and `tailwind-variants`.
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Frontend**: React, Material-UI, Tailwind CSS
+- **State Management & Utilities**: Axios, Lodash, LocalForage
+- **Build Tools**: Vite, TypeScript
+- **Code Quality**: ESLint, Prettier
+- **Deployment**: GitHub Pages
 
-- Configure the top-level `parserOptions` property like this:
+## 📚 Prerequisites
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+Before running the project, ensure you have the following installed:
+
+- **Node.js** (>= 16)
+- **Yarn** (>= 1.22.22)
+
+## 📦 Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/GarciaaMarilia/TripPlanner-Web.git
+cd TripPlanner-Web
+yarn install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## 💻 Development
+
+To run the project in development mode, follow these steps:
+
+1. Open your terminal and navigate to the project directory:
+
+```bash
+cd TripPlanner-Web
+```
+
+2. Start the development server with the following command:
+
+```bash
+yarn dev
+```
+3. Open your browser and visit http://localhost:5173 to view the application.
+
+   The development server will automatically reload whenever you make changes to the source code.
