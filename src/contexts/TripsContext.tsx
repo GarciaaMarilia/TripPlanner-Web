@@ -12,6 +12,7 @@ import { getTrips } from "../services/get-trips-service";
 interface TripsContextType {
  pastTrips: Trip[];
  nextTrips: Trip[];
+ fetchTrips: () => void;
  isLoading: boolean;
  error: string | null;
 }
@@ -30,38 +31,41 @@ export const TripsProvider: React.FC<TripsProviderProps> = ({ children }) => {
 
  const userId = localStorage.getItem("userId");
 
- useEffect(() => {
+ const fetchTrips = async () => {
   if (userId) {
-   const fetchTrips = async () => {
-    try {
-     const tripsData = await getTrips(userId);
-     if (!tripsData) {
-      throw new Error("Error to find trips.");
-     }
-
-     const now = new Date();
-
-     const past = tripsData.filter(
-      (trip: Trip) => new Date(trip.starts_at) < now
-     );
-     const next = tripsData.filter(
-      (trip: Trip) => new Date(trip.starts_at) >= now
-     );
-
-     setPastTrips(past);
-     setNextTrips(next);
-    } catch (error) {
-     setError("Context error.");
-    } finally {
-     setIsLoading(false);
+   try {
+    const tripsData = await getTrips(userId);
+    if (!tripsData) {
+     throw new Error("Error to find trips.");
     }
-   };
-   fetchTrips();
+
+    const now = new Date();
+
+    const past = tripsData.filter(
+     (trip: Trip) => new Date(trip.starts_at) < now
+    );
+    const next = tripsData.filter(
+     (trip: Trip) => new Date(trip.starts_at) >= now
+    );
+
+    setPastTrips(past);
+    setNextTrips(next);
+   } catch (error) {
+    setError("Context error.");
+   } finally {
+    setIsLoading(false);
+   }
   }
+ };
+
+ useEffect(() => {
+  fetchTrips();
  }, []);
 
  return (
-  <TripsContext.Provider value={{ pastTrips, nextTrips, isLoading, error }}>
+  <TripsContext.Provider
+   value={{ pastTrips, nextTrips, fetchTrips, isLoading, error }}
+  >
    {children}
   </TripsContext.Provider>
  );

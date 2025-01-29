@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Plane, Trash } from "lucide-react";
 
@@ -13,9 +13,10 @@ import { deleteTripService } from "../../../services/delete-trip-service";
 
 export function ListTripsPage() {
  const navigate = useNavigate();
- const { pastTrips, nextTrips, isLoading } = useTrips();
+ const location = useLocation();
+ const { pastTrips, nextTrips, fetchTrips, isLoading } = useTrips();
  const [selectedTripId, setSelectedTripId] = useState<string>("");
- const [deletTripModal, setDeleteTripModal] = useState<boolean>(false);
+ const [deleteTripModal, setDeleteTripModal] = useState<boolean>(false);
 
  const username = localStorage.getItem("username");
 
@@ -55,6 +56,10 @@ export function ListTripsPage() {
    console.error(error);
   }
  }
+
+ useEffect(() => {
+  fetchTrips();
+ }, [location.pathname]);
 
  if (isLoading) return <SkeletonLoading />;
 
@@ -116,7 +121,7 @@ export function ListTripsPage() {
     </div>
    </main>
 
-   {selectedTripId && deletTripModal && (
+   {selectedTripId && deleteTripModal && (
     <DeleteModal
      type="Trip"
      closeDeleteModal={closeDeleteTripModal}
