@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { Menu, Plus, X } from "lucide-react";
+import { Menu, MoveLeft, Plus, X } from "lucide-react";
 
 import { Guests } from "./guests";
 import { ActivitiesPage } from "./activities";
@@ -11,12 +11,15 @@ import { CreateActivityModal } from "./create-activity-modal";
 import { DestinationAndDateHeader } from "./destination-and-date-header";
 
 export function TripDetailsPage() {
+ const navigate = useNavigate();
  const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] =
   useState<boolean>(false);
  const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(false);
  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
  const location = useLocation();
  const { disabled } = location.state || {};
+
+ const userId = localStorage.getItem("userId");
 
  function openCreateActivityModal() {
   setIsCreateActivityModalOpen(true);
@@ -41,9 +44,18 @@ export function TripDetailsPage() {
   return () => window.removeEventListener("resize", handleResize);
  }, []);
 
+ function navigateHome() {
+  navigate(`/listTrips/${userId}`);
+ }
+
  return (
   <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
-   <DestinationAndDateHeader />
+   <div>
+    <button onClick={navigateHome}>
+     <MoveLeft className="size-8" />
+    </button>
+    <DestinationAndDateHeader />
+   </div>
 
    <main className="flex gap-16 px-4">
     <div className="flex-1 space-y-6">
