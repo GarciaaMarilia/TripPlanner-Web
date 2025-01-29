@@ -5,7 +5,8 @@ export async function getTrips(userId: string) {
  if (userId) {
   try {
    const response = await api.get(`listTrips/${userId}`);
-   return response.data.trips;
+
+   return response.data;
   } catch (error) {
    const axiosError = error as AxiosError;
 

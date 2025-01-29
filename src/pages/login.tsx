@@ -18,12 +18,12 @@ export function LoginPage() {
  const [errorModalIsOpen, setErrorModalIsOpen] = useState<boolean>(false);
 
  const authenticate = async () => {
-  if (!email || !password) {
-   setModalType(ErrorModalType.InvalidCredentials);
-   setErrorModalIsOpen(true);
-   return;
-  }
   try {
+   if (!email || !password) {
+    setModalType(ErrorModalType.InvalidCredentials);
+    setErrorModalIsOpen(true);
+    return;
+   }
    const response = await api.post("/login", { email, password });
 
    const token = get(response, "data.token");

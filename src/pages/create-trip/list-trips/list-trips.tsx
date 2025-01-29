@@ -45,11 +45,15 @@ export function ListTripsPage() {
  }
 
  async function deleteTrip(tripId: string) {
-  if (tripId) {
-   await deleteTripService(tripId);
+  try {
+   if (tripId) {
+    await deleteTripService(tripId);
+   }
+   closeDeleteTripModal();
+   window.document.location.reload();
+  } catch (error) {
+   console.error(error);
   }
-  closeDeleteTripModal();
-  window.document.location.reload();
  }
 
  if (isLoading) return <SkeletonLoading />;

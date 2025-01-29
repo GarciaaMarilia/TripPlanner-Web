@@ -65,7 +65,7 @@ export function ImportantLinks() {
     <div className="space-y-5">
      {links.map((link) => {
       return (
-       <div className="flex items-center justify-between gap-4">
+       <div key={link.id} className="flex items-center justify-between gap-4">
         <div className="space-y-1.5">
          <div className="flex gap-2">
           <span className="block font-medium text-zinc-100">{link.title}</span>

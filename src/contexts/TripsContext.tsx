@@ -33,23 +33,23 @@ export const TripsProvider: React.FC<TripsProviderProps> = ({ children }) => {
  useEffect(() => {
   if (userId) {
    const fetchTrips = async () => {
-    const tripsData = await getTrips(userId);
-    if (!tripsData) {
-     throw new Error("Error to find trips.");
-    }
-
-    const now = new Date();
-
-    const past = tripsData.filter(
-     (trip: Trip) => new Date(trip.starts_at) < now
-    );
-    const next = tripsData.filter(
-     (trip: Trip) => new Date(trip.starts_at) >= now
-    );
-
-    setPastTrips(past);
-    setNextTrips(next);
     try {
+     const tripsData = await getTrips(userId);
+     if (!tripsData) {
+      throw new Error("Error to find trips.");
+     }
+
+     const now = new Date();
+
+     const past = tripsData.filter(
+      (trip: Trip) => new Date(trip.starts_at) < now
+     );
+     const next = tripsData.filter(
+      (trip: Trip) => new Date(trip.starts_at) >= now
+     );
+
+     setPastTrips(past);
+     setNextTrips(next);
     } catch (error) {
      setError("Context error.");
     } finally {

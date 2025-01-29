@@ -10,7 +10,7 @@ import { InviteGuestsModal } from "./invite-guests-modal";
 import { InviteGuestsStep } from "./steps/invite-guests-step";
 import { DestinationAndDateStep } from "./steps/destination-and-date-step";
 
-import plannerImg from '../../../public/assets/logo.svg';
+import plannerImg from "../../../public/assets/logo.svg";
 
 export function CreateTripPage() {
  const navigate = useNavigate();
@@ -115,7 +115,7 @@ export function CreateTripPage() {
    const { tripId } = response.data;
    navigate(`/trips/${tripId}`);
   } catch (error) {
-   return error;
+   console.error(error);
   } finally {
    setLoading(false);
   }

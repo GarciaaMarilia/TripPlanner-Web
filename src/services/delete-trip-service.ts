@@ -5,7 +5,6 @@ import { api } from "../lib/axios";
 export async function deleteTripService(tripId: string) {
  try {
   const response = await api.delete(`/trips/${tripId}`);
-
   return { success: true, data: response.data };
  } catch (error) {
   const axiosError = error as AxiosError<{ message: string }>;

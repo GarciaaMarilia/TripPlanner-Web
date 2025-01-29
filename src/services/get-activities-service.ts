@@ -5,7 +5,7 @@ export async function getActivities(tripId: string) {
  try {
   const response = await api.get(`trips/${tripId}/activities`);
 
-  return response.data.activities;
+  return response.data;
  } catch (error) {
   const axiosError = error as AxiosError;
   if (axiosError.response) {
