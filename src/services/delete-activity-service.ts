@@ -7,8 +7,19 @@ export async function deleteActivityService(
  activityId: string
 ) {
  try {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+   return;
+  }
+
   const response = await api.delete(
-   `/trips/${tripId}/activities/${activityId}`
+   `/trips/${tripId}/activities/${activityId}`,
+   {
+    headers: {
+     Authorization: `Bearer ${token}`,
+    },
+   }
   );
 
   return { success: true, data: response.data };

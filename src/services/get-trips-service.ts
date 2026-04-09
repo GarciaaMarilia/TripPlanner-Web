@@ -4,7 +4,16 @@ import { api } from "../lib/axios";
 export async function getTrips(userId: string) {
  if (userId) {
   try {
-   const response = await api.get(`listTrips/${userId}`);
+   const token = localStorage.getItem("token");
+
+   if (!token) {
+    return;
+   }
+   const response = await api.get(`listTrips/${userId}`, {
+    headers: {
+     Authorization: `Bearer ${token}`,
+    },
+   });
 
    return response.data;
   } catch (error) {

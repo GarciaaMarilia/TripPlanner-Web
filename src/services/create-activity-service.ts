@@ -5,10 +5,24 @@ import { Activity } from "../models/models";
 
 export async function createActivity(tripId: string, data: Activity) {
  try {
-  const response = await api.post(`/trips/${tripId}/activities`, {
-   title: data.title,
-   occurs_at: data.occurs_at,
-  });
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+   return;
+  }
+
+  const response = await api.post(
+   `/trips/${tripId}/activities`,
+   {
+    title: data.title,
+    occurs_at: data.occurs_at,
+   },
+   {
+    headers: {
+     Authorization: `Bearer ${token}`,
+    },
+   }
+  );
 
   return { success: true, data: response.data };
  } catch (error) {

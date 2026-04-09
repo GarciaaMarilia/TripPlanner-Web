@@ -4,7 +4,17 @@ import { api } from "../lib/axios";
 
 export async function deleteTripService(tripId: string) {
  try {
-  const response = await api.delete(`/trips/${tripId}`);
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+   return;
+  }
+
+  const response = await api.delete(`/trips/${tripId}`, {
+   headers: {
+    Authorization: `Bearer ${token}`,
+   },
+  });
   return { success: true, data: response.data };
  } catch (error) {
   const axiosError = error as AxiosError<{ message: string }>;

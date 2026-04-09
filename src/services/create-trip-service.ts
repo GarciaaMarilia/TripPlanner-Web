@@ -1,14 +1,19 @@
 import { api } from "../lib/axios";
 
 export async function saveTrip(data: any) {
+ // TODO: TIPAR DA MANEIRA CORRETA O DATA
  const {
   destination,
   eventStartAndEndDates,
-  idUser,
-  emailsToInvite,
-  ownerName,
-  ownerEmail,
+  id_user,
+  owner_name,
+  owner_email,
  } = data;
+ const token = localStorage.getItem("token");
+
+ if (!token) {
+  return;
+ }
 
  if (!destination) {
   return;
@@ -18,29 +23,29 @@ export async function saveTrip(data: any) {
   return;
  }
 
- if (emailsToInvite.length === 0) {
-  return;
- }
-
- if (!ownerName || !ownerEmail) {
+ if (!owner_name || !owner_email) {
   return;
  }
 
  const tripData = {
   destination,
-  id_user: idUser,
+  id_user: id_user,
   starts_at: eventStartAndEndDates.from,
   ends_at: eventStartAndEndDates.to,
-  emails_to_invite: emailsToInvite,
-  owner_name: ownerName,
-  owner_email: ownerEmail,
+  owner_name: owner_name,
+  owner_email: owner_email,
  };
 
  try {
-  const response = await api.post("/trips", tripData);
-  const { tripId } = response.data;
+  const response = await api.post("/trips", tripData, {
+   headers: {
+    Authorization: `Bearer ${token}`,
+   },
+  });
+  const { tripId } = response.data; // TODO Padronizar return { succes: true, linkId: response };
   return tripId;
  } catch (error) {
+  console.error(error);
   return error;
  }
 }

@@ -3,7 +3,7 @@ import { api } from "../lib/axios";
 
 export async function getGuests(tripId: string) {
  try {
-  const response = await api.get(`trips/${tripId}/participants`);
+  const response = await api.get(`trips/${tripId}/participants`); // TODO nao existira mais
 
   return response.data.participants;
  } catch (error) {

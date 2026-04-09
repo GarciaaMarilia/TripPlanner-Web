@@ -14,48 +14,48 @@ import { deleteTripService } from "../../../services/delete-trip-service";
 export function ListTripsPage() {
  const navigate = useNavigate();
  const location = useLocation();
- const { pastTrips, nextTrips, fetchTrips, isLoading } = useTrips();
  const [selectedTripId, setSelectedTripId] = useState<string>("");
+ const { pastTrips, nextTrips, fetchTrips, isLoading } = useTrips();
  const [deleteTripModal, setDeleteTripModal] = useState<boolean>(false);
 
  const username = localStorage.getItem("username");
 
- function createtrip() {
+ const createtrip = () => {
   navigate("/createTrip");
- }
+ };
 
- function navigateTrip({
+ const navigateTrip = ({
   tripId,
   userId,
   isDisabled,
   isOwner,
- }: NavigateTripParams) {
+ }: NavigateTripParams) => {
   navigate(`/trips/${tripId}`, {
    state: { disabled: isDisabled, userId: userId, isOwner },
   });
- }
+ };
 
- function openDeleteTripModal(id: string) {
+ const openDeleteTripModal = (id: string) => {
   setSelectedTripId(id);
   setDeleteTripModal(true);
- }
+ };
 
- function closeDeleteTripModal() {
+ const closeDeleteTripModal = () => {
   setSelectedTripId("");
   setDeleteTripModal(false);
- }
+ };
 
- async function deleteTrip(tripId: string) {
+ const deleteTrip = async (tripId: string) => {
   try {
    if (tripId) {
-    await deleteTripService(tripId);
+   const response =  await deleteTripService(tripId);
    }
    closeDeleteTripModal();
    window.document.location.reload();
   } catch (error) {
    console.error(error);
   }
- }
+ };
 
  useEffect(() => {
   fetchTrips();
@@ -64,7 +64,7 @@ export function ListTripsPage() {
  if (isLoading) return <SkeletonLoading />;
 
  return (
-  <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
+  <div className="max-w-6xl px-6 py-10 mx-auto space-y-8 pb-20">
    <main className="flex flex-col lg:flex-row gap-8 px-4">
     <div className="flex-1 space-y-6">
      <div className="flex flex-wrap items-center justify-between gap-4">

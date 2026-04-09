@@ -3,7 +3,7 @@ import { FormEvent } from "react";
 import { AtSign, Plus, X } from "lucide-react";
 import { Button } from "../../components/button";
 
-interface InviteGuestsModalProps {
+interface InviteGuestsModalProps { // todo excluir
  closeGuestsModal: () => void;
  emailsToInvite: string[];
  addNewEmailToInvite: (event: FormEvent<HTMLFormElement>) => void;

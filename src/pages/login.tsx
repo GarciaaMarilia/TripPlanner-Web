@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { get } from "lodash";
 import { ArrowRight, KeyRound, User } from "lucide-react";
 
-import { api } from "../lib/axios";
 import { Button } from "../components/button";
 import { ErrorModal, ErrorModalType } from "../components/error-modal";
 
 import plannerImg from "../../public/assets/logo.svg";
+import authenticate from "../services/authenticate-service";
 
 export function LoginPage() {
  const navigate = useNavigate();
@@ -17,28 +16,18 @@ export function LoginPage() {
  const [modalType, setModalType] = useState<string>("");
  const [errorModalIsOpen, setErrorModalIsOpen] = useState<boolean>(false);
 
- const authenticate = async () => {
+ const handleAuth = async () => {
   try {
    if (!email || !password) {
     setModalType(ErrorModalType.InvalidCredentials);
     setErrorModalIsOpen(true);
     return;
    }
-   const response = await api.post("/login", { email, password });
-
-   const token = get(response, "data.token");
-
-   if (token) {
-    localStorage.setItem("token", token);
-
-    const user = get(response, "data.user");
-
-    if (user) {
-     const userId = get(user, "id");
-     localStorage.setItem("userId", userId);
-     localStorage.setItem("username", get(user, "name"));
-     navigate(`/listTrips/${userId}`);
-    }
+   const response: any = await authenticate(email, password); // TODO ANY
+console.log('response', response)
+   if (response?.userId) { // TODO
+    const userId = response.userId;
+    navigate(`/listTrips/${userId}`);
    } else {
     setModalType(ErrorModalType.AuthenticationFailed);
     setErrorModalIsOpen(true);
@@ -87,7 +76,7 @@ export function LoginPage() {
     </div>
     <Button
      size="full"
-     onClick={authenticate}
+     onClick={handleAuth}
      disabled={!email || !password}
      variant={!email || !password ? "disabled" : "primary"}
     >

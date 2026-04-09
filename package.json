@@ -27,7 +27,8 @@
   "react-dom": "^18.3.1",
   "react-router-dom": "^6.25.0",
   "sort-by": "^1.2.0",
-  "tailwind-variants": "^0.2.1"
+  "tailwind-variants": "^0.2.1",
+  "zustand": "^5.0.12"
  },
  "devDependencies": {
   "@types/lodash": "^4.17.13",

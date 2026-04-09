@@ -3,7 +3,17 @@ import { api } from "../lib/axios";
 
 export async function getActivities(tripId: string) {
  try {
-  const response = await api.get(`trips/${tripId}/activities`);
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+   return;
+  }
+
+  const response = await api.get(`trips/${tripId}/activities`, {
+   headers: {
+    Authorization: `Bearer ${token}`,
+   },
+  });
 
   return response.data;
  } catch (error) {

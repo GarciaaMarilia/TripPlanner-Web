@@ -4,46 +4,57 @@ import { useParams } from "react-router-dom";
 
 import { Link2, Tag, X } from "lucide-react";
 
-import { api } from "../../../lib/axios";
 import { Button } from "../../../components/button";
-import { ConfirmModal, ModalType } from "../../../components/modal";
+import { ConfirmModal, ModalType } from "../../../components/confirm-modal";
+import { registerLink } from "../../../services/create-link-service";
 
 interface RegisterLinkModalProps {
  closeRegisterLinkModal: () => void;
 }
 
+export type Link = { title: string; url: string };
+
 export function RegisterLinkModal({
  closeRegisterLinkModal,
 }: RegisterLinkModalProps) {
  const { tripId } = useParams();
- const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+ const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
 
- function openConfirmModal() {
-  setIsConfirmModalOpen(true);
- }
+ const handleConfirmModal = (shouldReload = false) => {
+  setIsConfirmModalOpen((prev) => !prev);
+  if (shouldReload) {
+   setTimeout(() => {
+    window.document.location.reload();
+   }, 200);
+  }
+ };
 
- function closeConfirmModal() {
-  setIsConfirmModalOpen(false);
-  window.document.location.reload();
- }
-
- async function registerLink(event: FormEvent<HTMLFormElement>) {
+ const handleRegisterLink = async (event: FormEvent<HTMLFormElement>) => {
   event.preventDefault();
+
+  if (!tripId) {
+   return;
+  }
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+   return;
+  }
 
   const data = new FormData(event.currentTarget);
 
-  const title = data.get("title")?.toString();
-  const url = data.get("url")?.toString();
+  const link: Link = {
+   title: data.get("title")?.toString() || "",
+   url: data.get("url")?.toString() || "",
+  };
 
-  await api
-   .post(`/trips/${tripId}/links`, {
-    title,
-    url,
-   })
-   .then(() => {
-    openConfirmModal();
-   });
- }
+  const response = await registerLink(tripId, link);
+
+  if (response && response.linkId) {
+   handleConfirmModal(true);
+  }
+ };
 
  return ReactDOM.createPortal(
   <div className="fixed inset-0 z-[50] bg-black/60 flex items-center justify-center">
@@ -62,11 +73,11 @@ export function RegisterLinkModal({
     {isConfirmModalOpen && (
      <ConfirmModal
       type={ModalType.Link}
-      closeConfirmModal={closeConfirmModal}
+      closeConfirmModal={handleConfirmModal}
      />
     )}
 
-    <form onSubmit={registerLink} className="space-y-3">
+    <form onSubmit={handleRegisterLink} className="space-y-3">
      <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
       <Tag className="text-zinc-400 size-5" />
       <input

@@ -18,23 +18,27 @@ export function ActivitiesPage() {
   null
  );
 
- async function deleteActivity(activityId: string) {
+ const deleteActivity = async (activityId: string) => {
   if (tripId && activityId) {
-   await deleteActivityService(tripId, activityId);
+   const response = await deleteActivityService(tripId, activityId);
+   if (response?.success) {
+    handleConfirmModal();
+   }
   }
-  closeConfirmModal();
-  window.document.location.reload();
- }
+ };
 
- function openConfirmModal(activityId: string) {
-  setSelectedActivityId(activityId);
-  setIsConfirmModal(true);
- }
+ const handleConfirmModal = (activityId?: string) => {
+  setIsConfirmModal((prev) => !prev);
 
- function closeConfirmModal() {
-  setIsConfirmModal(false);
-  setSelectedActivityId(null);
- }
+  if (activityId) {
+   setSelectedActivityId(activityId);
+  } else {
+   setSelectedActivityId(null);
+   setTimeout(() => {
+    window.document.location.reload();
+   }, 200);
+  }
+ };
 
  useEffect(() => {
   if (tripId) {
@@ -71,7 +75,7 @@ export function ActivitiesPage() {
             <span className="text-zinc-400 text-sm ml-auto">
              {format(activity.occurs_at, "HH:mm")}h
             </span>
-            <button onClick={() => openConfirmModal(activity.id)}>
+            <button onClick={() => handleConfirmModal(activity.id)}>
              <Trash className="size-5" />
             </button>
            </div>
@@ -91,7 +95,7 @@ export function ActivitiesPage() {
    {isConfirmModal && selectedActivityId && (
     <DeleteModal
      type="Activity"
-     closeDeleteModal={closeConfirmModal}
+     closeDeleteModal={handleConfirmModal}
      confirmDeleteItem={() => deleteActivity(selectedActivityId)}
     />
    )}

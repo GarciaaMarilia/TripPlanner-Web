@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 
 import { api } from "../lib/axios";
 
-export async function deleteGuestService(
+export async function deleteGuestService( // TODO nao existira mais
  participantId: string,
  tripId: string
 ) {

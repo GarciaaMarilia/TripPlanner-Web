@@ -4,7 +4,13 @@ import { api } from "../lib/axios";
 
 export async function deleteLinkService(tripId: string, linkId: string) {
  try {
-  const response = await api.delete(`/trips/${tripId}/links/${linkId}`);
+  const token = localStorage.getItem("token");
+
+  const response = await api.delete(`/trips/${tripId}/links/${linkId}`, {
+   headers: {
+    Authorization: `Bearer ${token}`,
+   },
+  });
 
   return { success: true, data: response.data };
  } catch (error) {

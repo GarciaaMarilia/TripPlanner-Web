@@ -20,31 +20,30 @@ export function ImportantLinks() {
  const [selectedLinkId, setSelectedLinkId] = useState<string>("");
  const [deleteLinkModal, setDeleteLinkModal] = useState<boolean>(false);
 
- function openRegisterLinkModal() {
-  setIsRegisterLinkModalOpen(true);
- }
+ const handleRegisterLinkModal = () => {
+  setIsRegisterLinkModalOpen((prev) => !prev);
+ };
 
- function closeRegisterLinkModal() {
-  setIsRegisterLinkModalOpen(false);
- }
-
- function openDeleteLinkModal(id: string) {
-  setDeleteLinkModal(true);
-  setSelectedLinkId(id);
- }
-
- function closeDeleteLinkModal() {
-  setDeleteLinkModal(false);
-  setSelectedLinkId("");
- }
-
- async function deleteLink(linkId: string) {
-  if (tripId && linkId) {
-   await deleteLinkService(tripId, linkId);
+ const handleDeleteLinkModal = (id?: string) => {
+  setDeleteLinkModal((prev) => !prev);
+  if (id) {
+   setSelectedLinkId(id);
+  } else {
+   setSelectedLinkId("");
+   setTimeout(() => {
+    window.document.location.reload();
+   }, 200);
   }
-  closeDeleteLinkModal();
-  window.document.location.reload();
- }
+ };
+
+ const deleteLink = async (linkId: string) => {
+  if (tripId && linkId) {
+   const response = await deleteLinkService(tripId, linkId);
+   if (response?.success) {
+    handleDeleteLinkModal();
+   }
+  }
+ };
 
  useEffect(() => {
   if (tripId) {
@@ -60,7 +59,7 @@ export function ImportantLinks() {
 
  return (
   <div className="space-y-6">
-   <h2 className="font-semibold text-xl">Important links</h2>
+   <h2 className="font-semibold text-xl">Links</h2>
    {links.length > 0 ? (
     <div className="space-y-5">
      {links.map((link) => {
@@ -70,7 +69,7 @@ export function ImportantLinks() {
          <div className="flex gap-2">
           <span className="block font-medium text-zinc-100">{link.title}</span>
           <button
-           onClick={() => openDeleteLinkModal(link.id)}
+           onClick={() => handleDeleteLinkModal(link.id)}
            disabled={disabled}
           >
            <Trash className="size-5" />
@@ -97,7 +96,7 @@ export function ImportantLinks() {
 
    <Button
     disabled={disabled}
-    onClick={openRegisterLinkModal}
+    onClick={handleRegisterLinkModal}
     variant={disabled ? "disabled" : "primary"}
     size="full"
    >
@@ -106,13 +105,13 @@ export function ImportantLinks() {
    </Button>
 
    {isRegisterLinkModalOpen && (
-    <RegisterLinkModal closeRegisterLinkModal={closeRegisterLinkModal} />
+    <RegisterLinkModal closeRegisterLinkModal={handleRegisterLinkModal} />
    )}
 
    {deleteLinkModal && selectedLinkId && (
     <DeleteModal
      type="Link"
-     closeDeleteModal={closeDeleteLinkModal}
+     closeDeleteModal={handleDeleteLinkModal}
      confirmDeleteItem={() => deleteLink(selectedLinkId)}
     />
    )}

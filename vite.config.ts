@@ -6,7 +6,8 @@ export default defineConfig({
  plugins: [react()],
  base: "./",
  server: {
-  port: 3000, // Define a porta local para o frontend
+  port: 3000,
+  host: true, // Define a porta local para o frontend
  },
  build: {
   outDir: "dist", // Diretório de saída para produção
